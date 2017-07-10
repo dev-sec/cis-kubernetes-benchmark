@@ -1,0 +1,8 @@
+name: cis-kubernetes-level2
+title: CIS Kubernetes 1.6 Benchmark v1.0.0 Level 2
+maintainer: Kristian Vlaardingerbroek
+copyright: Schuberg Philis B.V.
+copyright_email: kvlaardingerbroek@schubergphilis.com
+license: Apache-2.0
+summary: CIS Kubernetes 1.6 Benchmark v1.0.0 Level 2
+version: 0.1.0
