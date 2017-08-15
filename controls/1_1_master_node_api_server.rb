@@ -317,7 +317,7 @@ control 'cis-kubernetes-benchmark-1.1.20' do
   tag level: 1
 
   describe processes('kube-apiserver').commands.to_s do
-    it { should_not match(/--authorization-mode=AlwaysAllow/) }
+    it { should_not match(/--authorization-mode=(?:.)*AlwaysAllow,*(?:.)*/) }
     it { should match(/--authorization-mode=/) }
   end
 end
@@ -465,5 +465,57 @@ control 'cis-kubernetes-benchmark-1.1.31' do
 
   describe processes('kube-apiserver').commands.to_s do
     it { should match(/--etcd-cafile/) }
+  end
+end
+
+control 'cis-kubernetes-benchmark-1.1.32' do
+  title 'Ensure that the --authorization-mode argument is set to Node'
+  desc "Restrict kubelet nodes to reading only objects associated with them.\n\nRationale: The Node authorization mode only allows kubelets to read Secret, ConfigMap, PersistentVolume, and PersistentVolumeClaim objects associated with their nodes."
+  impact 1.0
+
+  tag cis: 'kubernetes:1.1.32'
+  tag level: 1
+
+  describe processes('kube-apiserver').commands.to_s do
+    it { should match(/--authorization-mode=(?:.)*Node,*(?:.)*/) }
+  end
+end
+
+control 'cis-kubernetes-benchmark-1.1.33' do
+  title 'Ensure that the admission control policy is set to NodeRestriction'
+  desc "Limit the Node and Pod objects that a kubelet could modify.\n\nRationale: Using the NodeRestriction plug-in ensures that the kubelet is restricted to the Node and Pod objects that it could modify as defined. Such kubelets will only be allowed to modify their own Node API object, and only modify Pod API objects that are bound to their node."
+  impact 1.0
+
+  tag cis: 'kubernetes:1.1.33'
+  tag level: 1
+
+  describe processes('kube-apiserver').commands.to_s do
+    it { should match(/--admission-control=(?:.)*NodeRestriction,*(?:.)*/) }
+  end
+end
+
+control 'cis-kubernetes-benchmark-1.1.34' do
+  title 'Ensure that the --experimental-encryption-provider-config argument is set as appropriate'
+  desc "Encrypt etcd key-value store.\n\nRationale: etcd is a highly available key-value store used by Kubernetes deployments for persistent storage of all of its REST API objects. These objects are sensitive in nature and should be encrypted at rest to avoid any disclosures."
+  impact 1.0
+
+  tag cis: 'kubernetes:1.1.34'
+  tag level: 1
+
+  describe processes('kube-apiserver').commands.to_s do
+    it { should match(/--experimental-encryption-provider-config=/) }
+  end
+end
+
+control 'cis-kubernetes-benchmark-1.1.35' do
+  title 'Ensure that the encryption provider is set to aescbc'
+  desc "Use aescbc encryption provider.\n\nRationale: aescbc is currently the strongest encryption provider, It should be preferred over other providers."
+  impact 1.0
+
+  tag cis: 'kubernetes:1.1.35'
+  tag level: 1
+
+  describe 'cis-kubernetes-benchmark-1.1.35' do
+    skip 'Review the `EncryptionConfig` file and verify that `aescbc` is used as the encryption provider.'
   end
 end

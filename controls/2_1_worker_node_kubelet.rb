@@ -56,7 +56,7 @@ control 'cis-kubernetes-benchmark-2.1.3' do
   tag level: 1
 
   describe processes('kubelet').commands.to_s do
-    it { should_not match(/--authorization-mode=AlwaysAllow/) }
+    it { should_not match(/--authorization-mode=(?:.)*AlwaysAllow,*(?:.)*/) }
     it { should match(/--authorization-mode=/) }
   end
 end
@@ -189,5 +189,31 @@ control 'cis-kubernetes-benchmark-2.1.13' do
 
   describe processes('kubelet').commands.to_s do
     it { should match(/--cadvisor-port=0/) }
+  end
+end
+
+control 'cis-kubernetes-benchmark-2.1.14' do
+  title 'Ensure that the RotateKubeletClientCertificate argument is set to true'
+  desc "Enable kubelet client certificate rotation.\n\nRationale: RotateKubeletClientCertificate causes the kubelet to rotate its client certificates by creating new CSRs as its existing credentials expire. This automated periodic rotation ensures that the there are no downtimes due to expired certificates and thus addressing availability in the CIA security triad. Note: This recommendation only applies if you let kubelets get their certificates from the API server. In case your kubelet certificates come from an outside authority/tool (e.g. Vault) then you need to take care of rotation yourself."
+  impact 1.0
+
+  tag cis: 'kubernetes:2.1.14'
+  tag level: 1
+
+  describe processes('kubelet').commands.to_s do
+    it { should match(/--feature-gates=(?:.)*RotateKubeletClientCertificate=true,*(?:.)*/) }
+  end
+end
+
+control 'cis-kubernetes-benchmark-2.1.15' do
+  title 'Ensure that the RotateKubeletServerCertificate argument is set to true'
+  desc "Enable kubelet server certificate rotation.\n\nRationale: RotateKubeletServerCertificate causes the kubelet to both request a serving certificate after bootstrapping its client credentials and rotate the certificate as its existing credentials expire. This automated periodic rotation ensures that the there are no downtimes due to expired certificates and thus addressing availability in the CIA security triad. Note: This recommendation only applies if you let kubelets get their certificates from the API server. In case your kubelet certificates come from an outside authority/tool (e.g. Vault) then you need to take care of rotation yourself."
+  impact 1.0
+
+  tag cis: 'kubernetes:2.1.15'
+  tag level: 1
+
+  describe processes('kube-controller-manager').commands.to_s do
+    it { should match(/--feature-gates=(?:.)*RotateKubeletServerCertificate=true,*(?:.)*/) }
   end
 end

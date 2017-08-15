@@ -234,7 +234,7 @@ control 'cis-kubernetes-benchmark-3.1.14' do
   tag level: 1
 
   describe processes('federation-apiserver').commands.to_s do
-    it { should_not match(/--authorization-mode=AlwaysAllow/) }
+    it { should_not match(/--authorization-mode=(?:.)*AlwaysAllow,*(?:.)*/) }
     it { should match(/--authorization-mode=/) }
   end
 end

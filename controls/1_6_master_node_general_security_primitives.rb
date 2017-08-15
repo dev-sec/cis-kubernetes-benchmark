@@ -70,53 +70,53 @@ control 'cis-kubernetes-benchmark-1.6.4' do
 end
 
 control 'cis-kubernetes-benchmark-1.6.5' do
-  title 'Avoid using Kubernetes Secrets'
-  desc "Avoid using Kubernetes `secret`.\n\nRationale: Kubernetes objects of type `secret` are intended to hold sensitive information, such as passwords, OAuth tokens, and ssh keys. Its current implementation is very basic. It has plenty of risks as highlighted in the reference links including storing secrets as plaintext. Avoid using Kubernetes secrets until you have devised a mechanism to protect them using your own means."
+  title 'Ensure that the seccomp profile is set to docker/default in your pod definitions'
+  desc "Enable `docker/default` seccomp profile in your pod definitions.\n\nRationale: Seccomp (secure computing mode) is used to restrict the set of system calls applications can make, allowing cluster administrators greater control over the security of workloads running in the cluster. Kubernetes disables seccomp profiles by default for historical reasons. You should enable it to ensure that the workloads have restricted actions available within the container."
   impact 0.0
 
   tag cis: 'kubernetes:1.6.5'
   tag level: 2
 
   describe 'cis-kubernetes-benchmark-1.6.5' do
-    skip 'Review the output of `kubectl get secrets` and ensure they are the ones you need.'
+    skip 'Review all the pod definitions in your cluster and verify that `seccomp` is enabled.'
   end
 end
 
 control 'cis-kubernetes-benchmark-1.6.6' do
-  title 'Ensure that the seccomp profile is set to docker/default in your pod definitions'
-  desc "Enable `docker/default` seccomp profile in your pod definitions.\n\nRationale: Seccomp (secure computing mode) is used to restrict the set of system calls applications can make, allowing cluster administrators greater control over the security of workloads running in the cluster. Kubernetes disables seccomp profiles by default for historical reasons. You should enable it to ensure that the workloads have restricted actions available within the container."
+  title 'Apply Security Context to Your Pods and Containers'
+  desc "Apply Security Context to Your Pods and Containers\n\nRationale: A security context defines the operating system security settings (uid, gid, capabilities, SELinux role, etc..) applied to a container. When designing your containers and pods, make sure that you configure the security context for your pods, containers, and volumes. A security context is a property defined in the deployment yaml. It controls the security parameters that will be assigned to the pod/container/volume. There are two levels of security context: pod level security context, and container level security context."
   impact 0.0
 
   tag cis: 'kubernetes:1.6.6'
   tag level: 2
 
   describe 'cis-kubernetes-benchmark-1.6.6' do
-    skip 'Review all the pod definitions in your cluster and verify that `seccomp` is enabled.'
+    skip 'Review the pod definitions in your cluster and verify that you have security contexts defined as appropriate.'
   end
 end
 
 control 'cis-kubernetes-benchmark-1.6.7' do
-  title 'Apply Security Context to Your Pods and Containers'
-  desc "Apply Security Context to Your Pods and Containers\n\nRationale: A security context defines the operating system security settings (uid, gid, capabilities, SELinux role, etc..) applied to a container. When designing your containers and pods, make sure that you configure the security context for your pods, containers, and volumes. A security context is a property defined in the deployment yaml. It controls the security parameters that will be assigned to the pod/container/volume. There are two levels of security context: pod level security context, and container level security context."
+  title 'Configure Image Provenance using ImagePolicyWebhook admission controller'
+  desc "Configure Image Provenance for your deployment.\n\nRationale: Kubernetes supports plugging in provenance rules to accept or reject the images in your deployments. You could configure such rules to ensure that only approved images are deployed in the cluster."
   impact 0.0
 
   tag cis: 'kubernetes:1.6.7'
   tag level: 2
 
   describe 'cis-kubernetes-benchmark-1.6.7' do
-    skip 'Review the pod definitions in your cluster and verify that you have security contexts defined as appropriate.'
+    skip 'Review the pod definitions in your cluster and verify that image provenance is configured as appropriate.'
   end
 end
 
 control 'cis-kubernetes-benchmark-1.6.8' do
-  title 'Configure Image Provenance using ImagePolicyWebhook admission controller'
-  desc "Configure Image Provenance for your deployment.\n\nRationale: Kubernetes supports plugging in provenance rules to accept or reject the images in your deployments. You could configure such rules to ensure that only approved images are deployed in the cluster."
+  title 'Configure Network policies as appropriate'
+  desc "Configure Network policies as appropriate.\n\nRationale: The Network Policy API is now stable. Network policy, implemented through a network plug-in, allows users to set and enforce rules governing which pods can communicate with each other. You should leverage it as appropriate in your environment."
   impact 0.0
 
   tag cis: 'kubernetes:1.6.8'
   tag level: 2
 
   describe 'cis-kubernetes-benchmark-1.6.8' do
-    skip 'Review the pod definitions in your cluster and verify that image provenance is configured as appropriate.'
+    skip 'Review the network policies enforced and ensure that they are suitable for your requirements.'
   end
 end

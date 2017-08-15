@@ -121,3 +121,46 @@ control 'cis-kubernetes-benchmark-2.2.6' do
     it { should be_grouped_into 'root' }
   end
 end
+
+control 'cis-kubernetes-benchmark-2.2.7' do
+  title 'Ensure that the certificate authorities file permissions are set to 644 or more restrictive'
+  desc "Ensure that the certificate authorities file has permissions of 644 or more restrictive.\n\nRationale: The certificate authorities file controls the authorities used to validate API requests. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system."
+  impact 1.0
+
+  tag cis: 'kubernetes:2.2.7'
+  tag level: 1
+
+  ca_cert_path = processes('kubelet').commands.to_s.scan(/--client-ca-file=(\S*)/)
+
+  if ca_cert_path.empty?
+    describe 'cis-kubernetes-benchmark-2.2.7' do
+      skip 'No client CA file specified for `kubelet` process'
+    end
+  else
+    describe file(ca_cert_path.last.first).mode.to_s do
+      it { should match(/[0246][024][024]/) }
+    end
+  end
+end
+
+control 'cis-kubernetes-benchmark-2.2.8' do
+  title 'Ensure that the client certificate authorities file ownership is set to root:root'
+  desc "Ensure that the certificate authorities file ownership is set to root:root.\n\nRationale: The certificate authorities file controls the authorities used to validate API requests. You should set its file ownership to maintain the integrity of the file. The file should be owned by root:root."
+  impact 1.0
+
+  tag cis: 'kubernetes:2.2.8'
+  tag level: 1
+
+  ca_cert_path = processes('kubelet').commands.to_s.scan(/--client-ca-file=(\S*)/)
+
+  if ca_cert_path.empty?
+    describe 'cis-kubernetes-benchmark-2.2.8' do
+      skip 'No client CA file specified for `kubelet` process'
+    end
+  else
+    describe file(ca_cert_path.last.first) do
+      it { should be_owned_by 'root' }
+      it { should be_grouped_into 'root' }
+    end
+  end
+end
