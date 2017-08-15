@@ -3,6 +3,13 @@
 ## Description
 This profile implements the [CIS Kubernetes 1.1.0 Benchmark](https://www.cisecurity.org/benchmark/kubernetes/).
 
+## Attributes
+
+To switch between the CIS profile levels the following attribute can be used:
+
+  * `cis_level: 2`
+    define which profile level to use, accepted values are `1` and `2`.
+
 ## License and Author
 
 * Author:: Kristian Vlaardingerbroek <kvlaardingerbroek@schubergphilis.com>
