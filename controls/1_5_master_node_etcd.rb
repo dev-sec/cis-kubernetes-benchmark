@@ -161,7 +161,7 @@ control 'cis-kubernetes-benchmark-1.5.7' do
 
   catch(:stop) do
     if etcd_process.exists?
-      if (wal_dir = etcd_process.commands.to_s.scan(/--data-dir=(\S+)/).last)
+      if (wal_dir = etcd_process.commands.first.scan(/--data-dir=(\S+)/).last)
         wal_dir = wal_dir.first
         throw :stop
       end

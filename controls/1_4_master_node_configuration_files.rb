@@ -18,177 +18,182 @@
 title '1.4 Master Node: Configuration Files'
 
 control 'cis-kubernetes-benchmark-1.4.1' do
-  title 'Ensure that the apiserver file permissions are set to 644 or more restrictive'
-  desc "Ensure that the `apiserver` file has permissions of `644` or more restrictive.\n\nRationale: The `apiserver` file controls various parameters that set the behavior of the API server. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system."
+  title 'Ensure that the API server pod specification file permissions are set to 644 or more restrictive'
+  desc "Ensure that the API server pod specification file has permissions of 644 or more restrictive.\n\nRationale: The API server pod specification file controls various parameters that set the behavior of the API server. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system."
   impact 1.0
 
   tag cis: 'kubernetes:1.4.1'
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/apiserver').exist?
+    file('/etc/kubernetes/manifests/kube-apiserver.yaml').exist?
   end
 
-  describe file('/etc/kubernetes/apiserver').mode.to_s do
+  describe file('/etc/kubernetes/manifests/kube-apiserver.yaml').mode.to_s do
     it { should match(/[0246][024][024]/) }
   end
 end
 
 control 'cis-kubernetes-benchmark-1.4.2' do
-  title 'Ensure that the apiserver file ownership is set to root:root'
-  desc "Ensure that the `apiserver` file ownership is set to `root:root`.\n\nRationale: The `apiserver` file controls various parameters that set the behavior of the API server. You should set its file ownership to maintain the integrity of the file. The file should be owned by `root:root`."
+  title 'Ensure that the API server pod specification file ownership is set to root:root'
+  desc "Ensure that the API server pod specification file ownership is set to root:root.\n\nRationale: The API server pod specification file controls various parameters that set the behavior of the API server. You should set its file ownership to maintain the integrity of the file. The file should be owned by root:root."
   impact 1.0
 
   tag cis: 'kubernetes:1.4.2'
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/apiserver').exist?
+    file('/etc/kubernetes/manifests/kube-apiserver.yaml').exist?
   end
 
-  describe file('/etc/kubernetes/apiserver') do
+  describe file('/etc/kubernetes/manifests/kube-apiserver.yaml') do
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
   end
 end
 
 control 'cis-kubernetes-benchmark-1.4.3' do
-  title 'Ensure that the config file permissions are set to 644 or more restrictive'
-  desc "Ensure that the `config` file has permissions of `644` or more restrictive.\n\nRationale: The `config` file controls various parameters that set the behavior of various components of the master node. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system."
+  title 'Ensure that the controller manager pod specification file permissions are set to 644 or more restrictive'
+  desc "Ensure that the controller manager pod specification file has permissions of 644 or more restrictive.\n\nRationale: The controller manager pod specification file controls various parameters that set the behavior of the Controller Manager on the master node. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system."
   impact 1.0
 
   tag cis: 'kubernetes:1.4.3'
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/config').exist?
+    file('/etc/kubernetes/manifests/kube-controller-manager.yaml').exist?
   end
 
-  describe file('/etc/kubernetes/config').mode.to_s do
+  describe file('/etc/kubernetes/manifests/kube-controller-manager.yaml').mode.to_s do
     it { should match(/[0246][024][024]/) }
   end
 end
 
 control 'cis-kubernetes-benchmark-1.4.4' do
-  title 'Ensure that the config file ownership is set to root:root'
-  desc "Ensure that the `config` file ownership is set to `root:root`.\n\nRationale: The `config` file controls various parameters that set the behavior of various components of the master node. You should set its file ownership to maintain the integrity of the file. The file should be owned by `root:root`."
+  title 'Ensure that the controller manager pod specification file ownership is set to root:root'
+  desc "Ensure that the controller manager pod specification file ownership is set to root:root.\n\nRationale: The controller manager pod specification file controls various parameters that set the behavior of various components of the master node. You should set its file ownership to maintain the integrity of the file. The file should be owned by root:root."
   impact 1.0
 
   tag cis: 'kubernetes:1.4.4'
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/config').exist?
+    file('/etc/kubernetes/manifests/kube-controller-manager.yaml').exist?
   end
 
-  describe file('/etc/kubernetes/config') do
+  describe file('/etc/kubernetes/manifests/kube-controller-manager.yaml') do
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
   end
 end
 
 control 'cis-kubernetes-benchmark-1.4.5' do
-  title 'Ensure that the scheduler file permissions are set to 644 or more restrictive'
-  desc "Ensure that the `scheduler` file has permissions of `644` or more restrictive.\n\nRationale: The `scheduler` file controls various parameters that set the behavior of the `kube-scheduler` service in the master node. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system."
+  title 'Ensure that the scheduler pod specification file permissions are set to 644 or more restrictive'
+  desc "Ensure that the scheduler pod specification file has permissions of 644 or more restrictive.\n\nRationale: The scheduler pod specification file controls various parameters that set the behavior of the Scheduler service in the master node. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system."
   impact 1.0
 
   tag cis: 'kubernetes:1.4.5'
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/scheduler').exist?
+    file('/etc/kubernetes/manifests/kube-scheduler.yaml').exist?
   end
 
-  describe file('/etc/kubernetes/scheduler').mode.to_s do
+  describe file('/etc/kubernetes/manifests/kube-scheduler.yaml').mode.to_s do
     it { should match(/[0246][024][024]/) }
   end
 end
 
 control 'cis-kubernetes-benchmark-1.4.6' do
-  title 'Ensure that the scheduler file ownership is set to root:root'
-  desc "Ensure that the `scheduler` file ownership is set to `root:root`.\n\nRationale: The `scheduler` file controls various parameters that set the behavior of the `kube-scheduler` service in the master node. You should set its file ownership to maintain the integrity of the file. The file should be owned by `root:root`."
+  title 'Ensure that the scheduler pod specification file ownership is set to root:root'
+  desc "Ensure that the scheduler pod specification file ownership is set to root:root.\n\nRationale: The scheduler pod specification file controls various parameters that set the behavior of the kube-scheduler service in the master node. You should set its file ownership to maintain the integrity of the file. The file should be owned by root:root."
   impact 1.0
 
   tag cis: 'kubernetes:1.4.6'
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/scheduler').exist?
+    file('/etc/kubernetes/manifests/kube-scheduler.yaml').exist?
   end
 
-  describe file('/etc/kubernetes/scheduler') do
+  describe file('/etc/kubernetes/manifests/kube-scheduler.yaml') do
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
   end
 end
 
 control 'cis-kubernetes-benchmark-1.4.7' do
-  title 'Ensure that the etcd.conf file permissions are set to 644 or more restrictive'
-  desc "Ensure that the `etcd.conf` file has permissions of `644` or more restrictive.\n\nRationale: The `etcd.conf` file controls various parameters that set the behavior of the `etcd` service in the master node. etcd is a highly-available key value store which Kubernetes uses for persistent storage of all of its REST API object. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system."
+  title 'Ensure that the etcd pod specification file permissions are set to 644 or more restrictive'
+  desc "Ensure that the /etc/kubernetes/manifests/etcd.yaml file has permissions of 644 or more restrictive.\n\nRationale: The etcd pod specification file /etc/kubernetes/manifests/etcd.yaml controls various parameters that set the behavior of the etcd service in the master node. etcd is a highly-available key-value store which Kubernetes uses for persistent storage of all of its REST API object. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system."
   impact 1.0
 
   tag cis: 'kubernetes:1.4.7'
   tag level: 1
 
   only_if do
-    file('/etc/etcd/etcd.conf').exist?
+    file('/etc/kubernetes/manifests/etcd.yaml').exist?
   end
 
-  describe file('/etc/etcd/etcd.conf').mode.to_s do
+  describe file('/etc/kubernetes/manifests/etcd.yaml').mode.to_s do
     it { should match(/[0246][024][024]/) }
   end
 end
 
 control 'cis-kubernetes-benchmark-1.4.8' do
-  title 'Ensure that the etcd.conf file ownership is set to root:root'
-  desc "Ensure that the `etcd.conf` file ownership is set to `root:root`.\n\nRationale: The `etcd.conf` file controls various parameters that set the behavior of the `etcd` service in the master node. etcd is a highly-available key value store which Kubernetes uses for persistent storage of all of its REST API object. You should set its file ownership to maintain the integrity of the file. The file should be owned by `root:root`."
+  title 'Ensure that the etcd pod specification file ownership is set to root:root'
+  desc "Ensure that the /etc/kubernetes/manifests/etcd.yaml file ownership is set to root:root..\n\nRationale: The etcd pod specification file /etc/kubernetes/manifests/etcd.yaml controls various parameters that set the behavior of the etcd service in the master node. etcd is a highly-available key-value store which Kubernetes uses for persistent storage of all of its REST API object. You should set its file ownership to maintain the integrity of the file. The file should be owned by root:root."
   impact 1.0
 
   tag cis: 'kubernetes:1.4.8'
   tag level: 1
 
   only_if do
-    file('/etc/etcd/etcd.conf').exist?
+    file('/etc/kubernetes/manifests/etcd.yaml').exist?
   end
 
-  describe file('/etc/etcd/etcd.conf') do
+  describe file('/etc/kubernetes/manifests/etcd.yaml') do
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
   end
 end
 
 control 'cis-kubernetes-benchmark-1.4.9' do
-  title 'Ensure that the flanneld file permissions are set to 644 or more restrictive'
-  desc "Ensure that the `flanneld` file has permissions of `644` or more restrictive.\n\nRationale: The `flanneld` file controls various parameters that set the behavior of the `flanneld` service in the master node. Flannel is one of the various options for a simple overlay network. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system."
+  title 'Ensure that the Container Network Interface file permissions are set to 644 or more restrictive'
+  desc "Ensure that the Container Network Interface files have permissions of 644 or more restrictive.\n\nRationale: Container Network Interface provides various networking options for overlay networking. You should consult their documentation and restrict their respective file permissions to maintain the integrity of those files. Those files should be writable by only the administrators on the system."
   impact 1.0
 
   tag cis: 'kubernetes:1.4.9'
   tag level: 1
 
-  only_if do
-    file('/etc/sysconfig/flanneld').exist?
+  if file('/etc/sysconfig/flanneld').exist?
+    describe file('/etc/sysconfig/flanneld').mode.to_s do
+      it { should match(/[0246][024][024]/) }
+    end
+  else
+    describe 'cis-kubernetes-benchmark-1.4.9' do
+      skip 'Review the permissions on your CNI configuration file(s).'
+    end
   end
 
-  describe file('/etc/sysconfig/flanneld').mode.to_s do
-    it { should match(/[0246][024][024]/) }
-  end
 end
 
 control 'cis-kubernetes-benchmark-1.4.10' do
-  title 'Ensure that the flanneld file ownership is set to root:root'
-  desc "Ensure that the `flanneld` file ownership is set to `root:root`.\n\nRationale: The `flanneld` file controls various parameters that set the behavior of the `flanneld` service in the master node. Flannel is one of the various options for a simple overlay network. You should set its file ownership to maintain the integrity of the file. The file should be owned by `root:root`."
+  title 'Ensure that the Container Network Interface file ownership is set to root:root'
+  desc "Ensure that the Container Network Interface files have ownership set to root:root.\n\nRationale: Container Network Interface provides various networking options for overlay networking. You should consult their documentation and restrict their respective file permissions to maintain the integrity of those files. Those files should be owned by root:root."
   impact 1.0
 
   tag cis: 'kubernetes:1.4.10'
   tag level: 1
 
-  only_if do
-    file('/etc/sysconfig/flanneld').exist?
-  end
-
-  describe file('/etc/sysconfig/flanneld') do
-    it { should be_owned_by 'root' }
-    it { should be_grouped_into 'root' }
+  if file('/etc/sysconfig/flanneld').exist?
+    describe file('/etc/sysconfig/flanneld') do
+      it { should be_owned_by 'root' }
+      it { should be_grouped_into 'root' }
+    end
+  else
+    describe 'cis-kubernetes-benchmark-1.4.10' do
+      skip 'Review the ownership of your CNI configuration file(s).'
+    end
   end
 end
 
@@ -260,5 +265,110 @@ control 'cis-kubernetes-benchmark-1.4.12' do
     describe 'cis-kubernetes-benchmark-1.4.12' do
       skip 'etcd data directory not found'
     end
+  end
+end
+
+control 'cis-kubernetes-benchmark-1.4.13' do
+  title 'Ensure that the admin.conf file permissions are set to 644 or more restrictive'
+  desc "Ensure that the admin.conf file has permissions of 644 or more restrictive.\n\nRationale: The admin.conf is the administrator kubeconfig file defining various settings for the administration of the cluster. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system."
+  impact 1.0
+
+  tag cis: 'kubernetes:1.4.13'
+  tag level: 1
+
+  only_if do
+    file('/etc/kubernetes/admin.conf').exist?
+  end
+
+  describe file('/etc/kubernetes/admin.conf').mode.to_s do
+    it { should match(/[0246][024][024]/) }
+  end
+end
+
+control 'cis-kubernetes-benchmark-1.4.14' do
+  title 'Ensure that the admin.conf file ownership is set to root:root'
+  desc "Ensure that the admin.conf file ownership is set to root:root.\n\nRationale: The admin.conf file contains the admin credentials for the cluster. You should set its file ownership to maintain the integrity of the file. The file should be owned by root:root."
+  impact 1.0
+
+  tag cis: 'kubernetes:1.4.14'
+  tag level: 1
+
+  only_if do
+    file('/etc/kubernetes/admin.conf').exist?
+  end
+
+  describe file('/etc/kubernetes/admin.conf') do
+    it { should be_owned_by 'root' }
+    it { should be_grouped_into 'root' }
+  end
+end
+
+control 'cis-kubernetes-benchmark-1.4.15' do
+  title 'Ensure that the scheduler.conf file has permissions of 644 or more restrictive'
+  desc "Ensure that the admin.conf file has permissions of 644 or more restrictive.\n\nRationale: The scheduler.conf file is the kubeconfig file for the Scheduler. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system."
+  impact 1.0
+
+  tag cis: 'kubernetes:1.4.15'
+  tag level: 1
+
+  only_if do
+    file('/etc/kubernetes/scheduler.conf').exist?
+  end
+
+  describe file('/etc/kubernetes/scheduler.conf').mode.to_s do
+    it { should match(/[0246][024][024]/) }
+  end
+end
+
+control 'cis-kubernetes-benchmark-1.4.16' do
+  title 'Ensure that the scheduler.conf file ownership is set to root:root'
+  desc "Ensure that the scheduler.conf file ownership is set to root:root.\n\nRationale: The scheduler.conf file is the kubeconfig file for the Scheduler. You should set its file ownership to maintain the integrity of the file. The file should be owned by root:root."
+  impact 1.0
+
+  tag cis: 'kubernetes:1.4.16'
+  tag level: 1
+
+  only_if do
+    file('/etc/kubernetes/scheduler.conf').exist?
+  end
+
+  describe file('/etc/kubernetes/scheduler.conf') do
+    it { should be_owned_by 'root' }
+    it { should be_grouped_into 'root' }
+  end
+end
+
+control 'cis-kubernetes-benchmark-1.4.17' do
+  title 'Ensure that the controller-manager.conf file permissions are set to 644 or more restrictive'
+  desc "Ensure that the controller-manager.conf file has permissions of 644 or more restrictive.\n\nRationale: The controller-manager.conf file is the kubeconfig file for the Controller Manager. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system."
+  impact 1.0
+
+  tag cis: 'kubernetes:1.4.17'
+  tag level: 1
+
+  only_if do
+    file('/etc/kubernetes/controller-manager.conf').exist?
+  end
+
+  describe file('/etc/kubernetes/controller-manager.conf').mode.to_s do
+    it { should match(/[0246][024][024]/) }
+  end
+end
+
+control 'cis-kubernetes-benchmark-1.4.18' do
+  title 'Ensure that the controller-manager.conf file ownership is set to root:root'
+  desc "Ensure that the controller-manager.conf file ownership is set to root:root.\n\nRationale: The controller-manager.conf file is the kubeconfig file for the Controller Manager. You should set its file ownership to maintain the integrity of the file. The file should be owned by root:root."
+  impact 1.0
+
+  tag cis: 'kubernetes:1.4.18'
+  tag level: 1
+
+  only_if do
+    file('/etc/kubernetes/controller-manager.conf').exist?
+  end
+
+  describe file('/etc/kubernetes/controller-manager.conf') do
+    it { should be_owned_by 'root' }
+    it { should be_grouped_into 'root' }
   end
 end

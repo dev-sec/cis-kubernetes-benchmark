@@ -123,4 +123,17 @@ if cis_level == '2'
       skip 'Review the network policies enforced and ensure that they are suitable for your requirements.'
     end
   end
+
+  control 'cis-kubernetes-benchmark-1.6.9' do
+    title 'Place compensating controls in the form of PSP and RBAC for privileged containers usage'
+    desc "Use Pod Security Policies (PSP) and RBAC authorization to mitigate the risk arising from using privileged containers.\n\nRationale: A number of components used by Kubernetes clusters currently make use of privileged containers (e.g. Container Network Interface plugins). Privileged containers pose a risk to the underlying host infrastructure. You should use PSP and RBAC or other forms of authorization to mitigate the risk arising out of such privileged container usage. PSPs should be in place to restrict access to create privileged containers to specific roles only, and access to those roles should be restricted using RBAC role bindings."
+    impact 0.0
+
+    tag cis: 'kubernetes:1.6.9'
+    tag level: 2
+
+    describe 'cis-kubernetes-benchmark-1.6.8' do
+      skip 'Review Pod Security Policies and RBAC authorization.'
+    end
+  end
 end
