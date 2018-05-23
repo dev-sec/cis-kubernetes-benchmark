@@ -29,7 +29,11 @@ class ProcessEnvVar < Inspec.resource(1)
   end
 
   def method_missing(name)
-    read_params[name.to_s]
+    if read_params[name]
+      read_params[name.to_s] 
+    else 
+      ''
+    end
   end
 
   def read_params
