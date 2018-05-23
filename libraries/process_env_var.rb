@@ -47,7 +47,7 @@ class ProcessEnvVar < Inspec.resource(1)
       return @params = {}
     end
 
-    @params = @content.split("\0").map { |i| i.split('=') }.to_h
+    @params = @content.split("\0").map { |i| i.split('=', 2) }.to_h
   end
 
   def to_s
