@@ -29,25 +29,25 @@ class ProcessEnvVar < Inspec.resource(1)
   end
 
   def method_missing(name)
-    read_params[name.to_s]
+    read_params[name.to_s] || ''
   end
 
   def read_params
     return @params if defined?(@params)
 
-    proc_environ = inspec.file("/proc/#{@process.pids.first}/environ")
-    unless file.file?
+    @file = inspec.file("/proc/#{@process.pids.first}/environ")
+    unless @file.file?
       skip_resource "Can't find environ file for #{@process}"
       return @params = {}
     end
 
-    environ_content = proc_environ.content
-    if content.empty? && !file.empty?
+    @content = @file.content
+    if @content.empty? && !@file.empty?
       skip_resource "Can't read environ file for #{@process}"
       return @params = {}
     end
 
-    @params = environ_content.split("\0").map { |i| i.split('=') }.to_h
+    @params = @content.split("\0").map { |i| i.split('=', 2) }.to_h
   end
 
   def to_s

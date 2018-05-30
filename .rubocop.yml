@@ -21,3 +21,6 @@ Metrics/PerceivedComplexity:
   Max: 10
 Metrics/AbcSize:
   Max: 29
+Style/MethodMissing:
+  Exclude:
+    - 'libraries/process_env_var.rb'

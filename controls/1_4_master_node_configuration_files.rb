@@ -210,7 +210,7 @@ control 'cis-kubernetes-benchmark-1.4.11' do
         throw :stop
       end
 
-      if (data_dir = file("/proc/#{etcd_process.pids.first}/environ").content.split("\0").select { |i| i[/^ETCD_DATA_DIR/] }.first.split('=').last)
+      if (data_dir = file("/proc/#{etcd_process.pids.first}/environ").content.split("\0").select { |i| i[/^ETCD_DATA_DIR/] }.first.to_s.split('=', 2).last.to_s)
         throw :stop
       end
     end
@@ -245,7 +245,7 @@ control 'cis-kubernetes-benchmark-1.4.12' do
         throw :stop
       end
 
-      if (data_dir = file("/proc/#{etcd_process.pids.first}/environ").content.split("\0").select { |i| i[/^ETCD_DATA_DIR/] }.first.split('=').last)
+      if (data_dir = file("/proc/#{etcd_process.pids.first}/environ").content.split("\0").select { |i| i[/^ETCD_DATA_DIR/] }.first.to_s.split('=', 2).last.to_s)
         throw :stop
       end
     end
