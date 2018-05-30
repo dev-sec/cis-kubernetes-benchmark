@@ -1,6 +1,8 @@
 **/.librarian
 **/.tmp
 **/Puppetfile.lock
+vendor/
+.bundle
 Gemfile.lock
 Berksfile.lock
 inspec.lock
