@@ -1,5 +1,18 @@
 # Change Log
 
+## [v0.3.0](https://github.com/dev-sec/cis-kubernetes-benchmark/tree/v0.3.0) (2018-05-30)
+[Full Changelog](https://github.com/dev-sec/cis-kubernetes-benchmark/compare/v0.2.0...v0.3.0)
+
+**Closed issues:**
+
+- process\_env\_vars seems entirely broken [\#8](https://github.com/dev-sec/cis-kubernetes-benchmark/issues/8)
+
+**Merged pull requests:**
+
+- Update for CIS Kubernetes benchmark version 1.2.0 [\#10](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/10) ([rarenerd](https://github.com/rarenerd))
+- Fix \#8 [\#9](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/9) ([e100](https://github.com/e100))
+- added changelog and common files [\#6](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/6) ([atomic111](https://github.com/atomic111))
+
 ## [v0.2.0](https://github.com/dev-sec/cis-kubernetes-benchmark/tree/v0.2.0) (2017-08-15)
 
 
