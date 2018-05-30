@@ -6,9 +6,14 @@
 **Closed issues:**
 
 - process\_env\_vars seems entirely broken [\#8](https://github.com/dev-sec/cis-kubernetes-benchmark/issues/8)
+- CIS Benchmark v1.2.0 has been released [\#4](https://github.com/dev-sec/cis-kubernetes-benchmark/issues/4)
+- support for hyperkube [\#3](https://github.com/dev-sec/cis-kubernetes-benchmark/issues/3)
+- Provide Changelog [\#2](https://github.com/dev-sec/cis-kubernetes-benchmark/issues/2)
+- Basic guidance on usage [\#1](https://github.com/dev-sec/cis-kubernetes-benchmark/issues/1)
 
 **Merged pull requests:**
 
+- Get rid of unneeded Unicode chars as they break some reports [\#11](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/11) ([rarenerd](https://github.com/rarenerd))
 - Update for CIS Kubernetes benchmark version 1.2.0 [\#10](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/10) ([rarenerd](https://github.com/rarenerd))
 - Fix \#8 [\#9](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/9) ([e100](https://github.com/e100))
 - added changelog and common files [\#6](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/6) ([atomic111](https://github.com/atomic111))
