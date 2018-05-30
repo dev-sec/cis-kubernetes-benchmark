@@ -169,7 +169,7 @@ end
 
 control 'cis-kubernetes-benchmark-1.1.11' do
   title 'Ensure that the admission control policy is set to AlwaysPullImages'
-  desc "Always pull images.\n\nRationale: Setting admission control policy to `AlwaysPullImages` forces every new pod to pull the required images every time. In a multitenant cluster users can be assured that their private images can only be used by those who have the credentials to pull them. Without this admisssion control policy, once an image has been pulled to a node, any pod from any user can use it simply by knowing the image’s name, without any authorization check against the image ownership. When this plug-in is enabled, images are always pulled prior to starting containers, which means valid credentials are required."
+  desc "Always pull images.\n\nRationale: Setting admission control policy to `AlwaysPullImages` forces every new pod to pull the required images every time. In a multitenant cluster users can be assured that their private images can only be used by those who have the credentials to pull them. Without this admisssion control policy, once an image has been pulled to a node, any pod from any user can use it simply by knowing the image's name, without any authorization check against the image ownership. When this plug-in is enabled, images are always pulled prior to starting containers, which means valid credentials are required."
   impact 1.0
 
   tag cis: 'kubernetes:1.1.11'
@@ -324,7 +324,7 @@ end
 
 control 'cis-kubernetes-benchmark-1.1.21' do
   title 'Ensure that the --kubelet-certificate-authority argument is set as appropriate'
-  desc "Verify kubelet's certificate before establishing connection.\n\nRationale: The connections from the apiserver to the kubelet are used for fetching logs for pods, attaching (through kubectl) to running pods, and using the kubelet’s port-forwarding functionality. These connections terminate at the kubelet’s HTTPS endpoint. By default, the apiserver does not verify the kubelet’s serving certificate, which makes the connection subject to man-in-the-middle attacks, and unsafe to run over untrusted and/or public networks."
+  desc "Verify kubelet's certificate before establishing connection.\n\nRationale: The connections from the apiserver to the kubelet are used for fetching logs for pods, attaching (through kubectl) to running pods, and using the kubelet's port-forwarding functionality. These connections terminate at the kubelet's HTTPS endpoint. By default, the apiserver does not verify the kubelet's serving certificate, which makes the connection subject to man-in-the-middle attacks, and unsafe to run over untrusted and/or public networks."
   impact 1.0
 
   tag cis: 'kubernetes:1.1.21'
