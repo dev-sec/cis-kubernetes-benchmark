@@ -70,7 +70,7 @@ control 'cis-kubernetes-benchmark-2.1.4' do
   tag level: 1
 
   describe processes('kubelet').commands.to_s do
-    it { should match(/--client-ca-file=false/) }
+    it { should match(/--client-ca-file=/) }
   end
 end
 
