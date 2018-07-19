@@ -21,11 +21,71 @@ class Kubernetes < Inspec.resource(1)
 
   def initialize
     @file = inspec.file('/usr/bin/hyperkube')
-    @ishyperkube = @file.file?
-    Log.debug("The installation is hyperkube=#{@ishyperkube}")
+    @hyperkube = @file.file?
+    Log.debug("The installation is hyperkube=#{@hyperkube}")
   end
 
   def hyperkube
-    @ishyperkube
+    @hyperkube
+  end
+
+  def processname_apiserver
+    plain = 'kube-apiserver'
+    hyperkube = 'apiserver'
+    processname = plain
+
+    processname = hyperkube if @hyperkube
+
+    processname
+  end
+
+  def processname_federation_apiserver
+    plain = 'federation-apiserver'
+    hyperkube = 'federation-apiserver'
+    processname = plain
+
+    processname = hyperkube if @hyperkube
+
+    processname
+  end
+
+  def processname_scheduler
+    plain = 'kube-scheduler'
+    hyperkube = 'kube-scheduler'
+    processname = plain
+
+    processname = hyperkube if @hyperkube
+
+    processname
+  end
+
+  def processname_controllermanager
+    plain = 'kube-controller-manager'
+    hyperkube = 'controller-manager'
+    processname = plain
+
+    processname = hyperkube if @hyperkube
+
+    processname
+  end
+
+  def processname_federation_controllermanager
+    plain = 'federation_controller_manager'
+    hyperkube = 'federation_controller_manager'
+    processname = plain
+
+    processname = hyperkube if @hyperkube
+
+    processname
+  end
+
+  def processname_kubelet
+    plain = 'kubelet'
+    hyperkube = 'kubelet'
+    processname = plain
+
+    processname = hyperkube if @hyperkube
+
+    processname
   end
 end

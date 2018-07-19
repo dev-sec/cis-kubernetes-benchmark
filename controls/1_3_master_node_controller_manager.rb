@@ -17,7 +17,7 @@
 
 title '1.3 Master Node: Controller Manager'
 
-controller_manager = attribute('controller_manager', default: kubernetes.hyperkube ? 'controller-manager' : 'kube-controller-manager', description: 'The name of the controller manager process')
+controller_manager = attribute('controller_manager', default: kubernetes.processname_controllermanager, description: 'The name of the controller manager process')
 
 only_if do
   processes(controller_manager).exists?

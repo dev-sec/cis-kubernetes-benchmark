@@ -17,7 +17,7 @@
 
 title '1.2 Master Node: Scheduler'
 
-scheduler = attribute('scheduler', default: 'kube-scheduler', description: 'The name of the kube scheduler process')
+scheduler = attribute('scheduler', default: kubernetes.processname_scheduler, description: 'The name of the kube scheduler process')
 
 only_if do
   processes(scheduler).exists?

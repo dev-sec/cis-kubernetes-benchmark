@@ -17,7 +17,7 @@
 
 title '1.1 Master Node: API Server'
 
-apiserver = attribute('apiserver', default: kubernetes.hyperkube ? 'apiserver' : 'kube-apiserver', description: 'The name of the apiserver process')
+apiserver = attribute('apiserver', default: kubernetes.processname_apiserver , description: 'The name of the apiserver process')
 
 only_if do
   processes(apiserver).exists?

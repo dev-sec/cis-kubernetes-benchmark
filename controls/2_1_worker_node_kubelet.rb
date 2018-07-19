@@ -17,7 +17,7 @@
 
 title '2.1 Worker Node: Kubelet'
 
-kubelet = attribute('kubelet', default: 'kubelet', description: 'The name of the kubelet process')
+kubelet = attribute('kubelet', default: kubernetes.processname_kubelet, description: 'The name of the kubelet process')
 
 only_if do
   processes(kubelet).exists?
