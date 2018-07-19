@@ -25,10 +25,6 @@ class Kubernetes < Inspec.resource(1)
     Log.debug("The installation is hyperkube=#{@hyperkube}")
   end
 
-  def hyperkube
-    @hyperkube
-  end
-
   def processname_apiserver
     plain = 'kube-apiserver'
     hyperkube = 'apiserver'
