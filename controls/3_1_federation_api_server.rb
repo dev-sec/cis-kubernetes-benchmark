@@ -17,8 +17,10 @@
 
 title '3.1 Federation API Server'
 
+federation_apiserver = attribute('federation_apiserver', default: 'federation-apiserver', description: 'The name of the federation apiserver process')
+
 only_if do
-  processes('federation-apiserver').exists?
+  processes(federation_apiserver).exists?
 end
 
 control 'cis-kubernetes-benchmark-3.1.1' do
@@ -29,7 +31,7 @@ control 'cis-kubernetes-benchmark-3.1.1' do
   tag cis: 'kubernetes:3.1.1'
   tag level: 1
 
-  describe processes('federation-apiserver').commands.to_s do
+  describe processes(federation_apiserver).commands.to_s do
     it { should match(/--anonymous-auth=false/) }
   end
 end
@@ -42,7 +44,7 @@ control 'cis-kubernetes-benchmark-3.1.2' do
   tag cis: 'kubernetes:3.1.2'
   tag level: 1
 
-  describe processes('federation-apiserver').commands.to_s do
+  describe processes(federation_apiserver).commands.to_s do
     it { should_not match(/--basic-auth-file/) }
   end
 end
@@ -55,7 +57,7 @@ control 'cis-kubernetes-benchmark-3.1.3' do
   tag cis: 'kubernetes:3.1.3'
   tag level: 1
 
-  describe processes('federation-apiserver').commands.to_s do
+  describe processes(federation_apiserver).commands.to_s do
     it { should_not match(/--insecure-allow-any-token/) }
   end
 end
@@ -69,10 +71,10 @@ control 'cis-kubernetes-benchmark-3.1.4' do
   tag level: 1
 
   describe.one do
-    describe processes('federation-apiserver').commands.to_s do
+    describe processes(federation_apiserver).commands.to_s do
       it { should match(/--insecure-bind-address=127\.0\.0\.1/) }
     end
-    describe processes('federation-apiserver').commands.to_s do
+    describe processes(federation_apiserver).commands.to_s do
       it { should_not match(/--insecure-bind-address/) }
     end
   end
@@ -86,7 +88,7 @@ control 'cis-kubernetes-benchmark-3.1.5' do
   tag cis: 'kubernetes:3.1.5'
   tag level: 1
 
-  describe processes('federation-apiserver').commands.to_s do
+  describe processes(federation_apiserver).commands.to_s do
     it { should match(/--insecure-port=0/) }
   end
 end
@@ -100,10 +102,10 @@ control 'cis-kubernetes-benchmark-3.1.6' do
   tag level: 1
 
   describe.one do
-    describe processes('federation-apiserver').commands.to_s do
+    describe processes(federation_apiserver).commands.to_s do
       it { should match(/--secure-port=([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])/) }
     end
-    describe processes('kube-apiserver').commands.to_s do
+    describe processes(federation_apiserver).commands.to_s do
       it { should_not match(/--secure-port/) }
     end
   end
@@ -117,7 +119,7 @@ control 'cis-kubernetes-benchmark-3.1.7' do
   tag cis: 'kubernetes:3.1.7'
   tag level: 1
 
-  describe processes('federation-apiserver').commands.to_s do
+  describe processes(federation_apiserver).commands.to_s do
     it { should match(/--profiling=false/) }
   end
 end
@@ -130,7 +132,7 @@ control 'cis-kubernetes-benchmark-3.1.8' do
   tag cis: 'kubernetes:3.1.8'
   tag level: 1
 
-  describe processes('federation-apiserver').commands.to_s do
+  describe processes(federation_apiserver).commands.to_s do
     it { should_not match(/--admission-control=(?:.)*AlwaysAdmit,*(?:.)*/) }
     it { should match(/--admission-control=/) }
   end
@@ -144,7 +146,7 @@ control 'cis-kubernetes-benchmark-3.1.9' do
   tag cis: 'kubernetes:3.1.9'
   tag level: 1
 
-  describe processes('federation-apiserver').commands.to_s do
+  describe processes(federation_apiserver).commands.to_s do
     it { should match(/--admission-control=(?:.)*NamespaceLifecycle,*(?:.)*/) }
   end
 end
@@ -157,7 +159,7 @@ control 'cis-kubernetes-benchmark-3.1.10' do
   tag cis: 'kubernetes:3.1.10'
   tag level: 1
 
-  describe processes('federation-apiserver').commands.to_s do
+  describe processes(federation_apiserver).commands.to_s do
     it { should match(/--audit-log-path=/) }
   end
 end
@@ -170,11 +172,11 @@ control 'cis-kubernetes-benchmark-3.1.11' do
   tag cis: 'kubernetes:3.1.11'
   tag level: 1
 
-  describe processes('federation-apiserver').commands.to_s do
+  describe processes(federation_apiserver).commands.to_s do
     it { should match(/--audit-log-maxage=/) }
   end
 
-  audit_log_maxage = processes('federation-apiserver').commands.to_s.scan(/--audit-log-maxage=(\d+)/)
+  audit_log_maxage = processes(federation_apiserver).commands.to_s.scan(/--audit-log-maxage=(\d+)/)
 
   unless audit_log_maxage.empty?
     describe audit_log_maxage.last.first.to_i do
@@ -191,11 +193,11 @@ control 'cis-kubernetes-benchmark-3.1.12' do
   tag cis: 'kubernetes:3.1.12'
   tag level: 1
 
-  describe processes('federation-apiserver').commands.to_s do
+  describe processes(federation_apiserver).commands.to_s do
     it { should match(/--audit-log-maxbackup=/) }
   end
 
-  audit_log_maxbackup = processes('federation-apiserver').commands.to_s.scan(/--audit-log-maxbackup=(\d+)/)
+  audit_log_maxbackup = processes(federation_apiserver).commands.to_s.scan(/--audit-log-maxbackup=(\d+)/)
 
   unless audit_log_maxbackup.empty?
     describe audit_log_maxbackup.last.first.to_i do
@@ -212,11 +214,11 @@ control 'cis-kubernetes-benchmark-3.1.13' do
   tag cis: 'kubernetes:3.1.13'
   tag level: 1
 
-  describe processes('federation-apiserver').commands.to_s do
+  describe processes(federation_apiserver).commands.to_s do
     it { should match(/--audit-log-maxsize=/) }
   end
 
-  audit_log_maxsize = processes('federation-apiserver').commands.to_s.scan(/--audit-log-maxsize=(\d+)/)
+  audit_log_maxsize = processes(federation_apiserver).commands.to_s.scan(/--audit-log-maxsize=(\d+)/)
 
   unless audit_log_maxsize.empty?
     describe audit_log_maxsize.last.first.to_i do
@@ -233,7 +235,7 @@ control 'cis-kubernetes-benchmark-3.1.14' do
   tag cis: 'kubernetes:3.1.14'
   tag level: 1
 
-  describe processes('federation-apiserver').commands.to_s do
+  describe processes(federation_apiserver).commands.to_s do
     it { should_not match(/--authorization-mode=(?:.)*AlwaysAllow,*(?:.)*/) }
     it { should match(/--authorization-mode=/) }
   end
@@ -247,7 +249,7 @@ control 'cis-kubernetes-benchmark-3.1.15' do
   tag cis: 'kubernetes:3.1.15'
   tag level: 1
 
-  describe processes('federation-apiserver').commands.to_s do
+  describe processes(federation_apiserver).commands.to_s do
     it { should_not match(/--token-auth-file/) }
   end
 end
@@ -260,7 +262,7 @@ control 'cis-kubernetes-benchmark-3.1.16' do
   tag cis: 'kubernetes:3.1.16'
   tag level: 1
 
-  describe processes('federation-apiserver').commands.to_s do
+  describe processes(federation_apiserver).commands.to_s do
     it { should match(/--service-account-lookup=true/) }
   end
 end
@@ -273,7 +275,7 @@ control 'cis-kubernetes-benchmark-3.1.17' do
   tag cis: 'kubernetes:3.1.17'
   tag level: 1
 
-  describe processes('federation-apiserver').commands.to_s do
+  describe processes(federation_apiserver).commands.to_s do
     it { should match(/--service-account-key-file=/) }
   end
 end
@@ -286,7 +288,7 @@ control 'cis-kubernetes-benchmark-3.1.18' do
   tag cis: 'kubernetes:3.1.18'
   tag level: 1
 
-  describe processes('federation-apiserver').commands.to_s do
+  describe processes(federation_apiserver).commands.to_s do
     it { should match(/--etcd-certfile=/) }
     it { should match(/--etcd-keyfile=/) }
   end
@@ -300,7 +302,7 @@ control 'cis-kubernetes-benchmark-3.1.19' do
   tag cis: 'kubernetes:3.1.19'
   tag level: 1
 
-  describe processes('federation-apiserver').commands.to_s do
+  describe processes(federation_apiserver).commands.to_s do
     it { should match(/--tls-cert-file=/) }
     it { should match(/--tls-private-key-file=/) }
   end

@@ -17,8 +17,10 @@
 
 title '1.2 Master Node: Scheduler'
 
+scheduler = attribute('scheduler', default: 'kube-scheduler', description: 'The name of the kube scheduler process')
+
 only_if do
-  processes('kube-scheduler').exists?
+  processes(scheduler).exists?
 end
 
 control 'cis-kubernetes-benchmark-1.2.1' do
@@ -29,7 +31,7 @@ control 'cis-kubernetes-benchmark-1.2.1' do
   tag cis: 'kubernetes:1.2.1'
   tag level: 1
 
-  describe processes('kube-scheduler').commands.to_s do
+  describe processes(scheduler).commands.to_s do
     it { should match(/--profiling=false/) }
   end
 end
