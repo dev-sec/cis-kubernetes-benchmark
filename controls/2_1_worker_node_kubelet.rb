@@ -17,8 +17,10 @@
 
 title '2.1 Worker Node: Kubelet'
 
+kubelet = attribute('kubelet', default: kubernetes.processname_kubelet, description: 'The name of the kubelet process')
+
 only_if do
-  processes('kubelet').exists?
+  processes(kubelet).exists?
 end
 
 control 'cis-kubernetes-benchmark-2.1.1' do
@@ -29,7 +31,7 @@ control 'cis-kubernetes-benchmark-2.1.1' do
   tag cis: 'kubernetes:2.1.1'
   tag level: 1
 
-  describe processes('kubelet').commands.to_s do
+  describe processes(kubelet).commands.to_s do
     it { should match(/--allow-privileged=false/) }
   end
 end
@@ -42,7 +44,7 @@ control 'cis-kubernetes-benchmark-2.1.2' do
   tag cis: 'kubernetes:2.1.2'
   tag level: 1
 
-  describe processes('kubelet').commands.to_s do
+  describe processes(kubelet).commands.to_s do
     it { should match(/--anonymous-auth=false/) }
   end
 end
@@ -55,7 +57,7 @@ control 'cis-kubernetes-benchmark-2.1.3' do
   tag cis: 'kubernetes:2.1.3'
   tag level: 1
 
-  describe processes('kubelet').commands.to_s do
+  describe processes(kubelet).commands.to_s do
     it { should_not match(/--authorization-mode=(?:.)*AlwaysAllow,*(?:.)*/) }
     it { should match(/--authorization-mode=/) }
   end
@@ -69,7 +71,7 @@ control 'cis-kubernetes-benchmark-2.1.4' do
   tag cis: 'kubernetes:2.1.4'
   tag level: 1
 
-  describe processes('kubelet').commands.to_s do
+  describe processes(kubelet).commands.to_s do
     it { should match(/--client-ca-file=/) }
   end
 end
@@ -82,7 +84,7 @@ control 'cis-kubernetes-benchmark-2.1.5' do
   tag cis: 'kubernetes:2.1.5'
   tag level: 1
 
-  describe processes('kubelet').commands.to_s do
+  describe processes(kubelet).commands.to_s do
     it { should match(/--read-only-port=0/) }
   end
 end
@@ -95,7 +97,7 @@ control 'cis-kubernetes-benchmark-2.1.6' do
   tag cis: 'kubernetes:2.1.6'
   tag level: 1
 
-  describe processes('kubelet').commands.to_s do
+  describe processes(kubelet).commands.to_s do
     it { should_not match(/--streaming-connection-idle-timeout=0/) }
   end
 end
@@ -108,7 +110,7 @@ control 'cis-kubernetes-benchmark-2.1.7' do
   tag cis: 'kubernetes:2.1.7'
   tag level: 1
 
-  describe processes('kubelet').commands.to_s do
+  describe processes(kubelet).commands.to_s do
     it { should match(/--protect-kernel-defaults=true/) }
   end
 end
@@ -121,7 +123,7 @@ control 'cis-kubernetes-benchmark-2.1.8' do
   tag cis: 'kubernetes:2.1.8'
   tag level: 1
 
-  describe processes('kubelet').commands.to_s do
+  describe processes(kubelet).commands.to_s do
     it { should match(/--make-iptables-util-chains=true/) }
   end
 end
@@ -134,7 +136,7 @@ control 'cis-kubernetes-benchmark-2.1.9' do
   tag cis: 'kubernetes:2.1.9'
   tag level: 1
 
-  describe processes('kubelet').commands.to_s do
+  describe processes(kubelet).commands.to_s do
     it { should match(/--keep-terminated-pod-volumes=false/) }
   end
 end
@@ -147,7 +149,7 @@ control 'cis-kubernetes-benchmark-2.1.10' do
   tag cis: 'kubernetes:2.1.10'
   tag level: 1
 
-  describe processes('kubelet').commands.to_s do
+  describe processes(kubelet).commands.to_s do
     it { should_not match(/--hostname-override/) }
   end
 end
@@ -160,7 +162,7 @@ control 'cis-kubernetes-benchmark-2.1.11' do
   tag cis: 'kubernetes:2.1.11'
   tag level: 1
 
-  describe processes('kubelet').commands.to_s do
+  describe processes(kubelet).commands.to_s do
     it { should match(/--event-qps=0/) }
   end
 end
@@ -173,7 +175,7 @@ control 'cis-kubernetes-benchmark-2.1.12' do
   tag cis: 'kubernetes:2.1.12'
   tag level: 1
 
-  describe processes('kubelet').commands.to_s do
+  describe processes(kubelet).commands.to_s do
     it { should match(/--tls-cert-file=/) }
     it { should match(/--tls-private-key-file=/) }
   end
@@ -187,7 +189,7 @@ control 'cis-kubernetes-benchmark-2.1.13' do
   tag cis: 'kubernetes:2.1.13'
   tag level: 1
 
-  describe processes('kubelet').commands.to_s do
+  describe processes(kubelet).commands.to_s do
     it { should match(/--cadvisor-port=0/) }
   end
 end
@@ -200,7 +202,7 @@ control 'cis-kubernetes-benchmark-2.1.14' do
   tag cis: 'kubernetes:2.1.14'
   tag level: 1
 
-  describe processes('kubelet').commands.to_s do
+  describe processes(kubelet).commands.to_s do
     it { should match(/--feature-gates=(?:.)*RotateKubeletClientCertificate=true,*(?:.)*/) }
   end
 end
@@ -213,7 +215,7 @@ control 'cis-kubernetes-benchmark-2.1.15' do
   tag cis: 'kubernetes:2.1.15'
   tag level: 1
 
-  describe processes('kube-controller-manager').commands.to_s do
+  describe processes(kubelet).commands.to_s do
     it { should match(/--feature-gates=(?:.)*RotateKubeletServerCertificate=true,*(?:.)*/) }
   end
 end

@@ -17,8 +17,10 @@
 
 title '1.1 Master Node: API Server'
 
+apiserver = attribute('apiserver', default: kubernetes.processname_apiserver, description: 'The name of the apiserver process')
+
 only_if do
-  processes('kube-apiserver').exists?
+  processes(apiserver).exists?
 end
 
 control 'cis-kubernetes-benchmark-1.1.1' do
@@ -29,7 +31,7 @@ control 'cis-kubernetes-benchmark-1.1.1' do
   tag cis: 'kubernetes:1.1.1'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--anonymous-auth=false/) }
   end
 end
@@ -42,7 +44,7 @@ control 'cis-kubernetes-benchmark-1.1.2' do
   tag cis: 'kubernetes:1.1.2'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should_not match(/--basic-auth-file/) }
   end
 end
@@ -55,7 +57,7 @@ control 'cis-kubernetes-benchmark-1.1.3' do
   tag cis: 'kubernetes:1.1.3'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should_not match(/--insecure-allow-any-token/) }
   end
 end
@@ -69,10 +71,10 @@ control 'cis-kubernetes-benchmark-1.1.4' do
   tag level: 1
 
   describe.one do
-    describe processes('kube-apiserver').commands.to_s do
+    describe processes(apiserver).commands.to_s do
       it { should match(/--kubelet-https=true/) }
     end
-    describe processes('kube-apiserver').commands.to_s do
+    describe processes(apiserver).commands.to_s do
       it { should_not match(/--kubelet-https/) }
     end
   end
@@ -87,10 +89,10 @@ control 'cis-kubernetes-benchmark-1.1.5' do
   tag level: 1
 
   describe.one do
-    describe processes('kube-apiserver').commands.to_s do
+    describe processes(apiserver).commands.to_s do
       it { should match(/--insecure-bind-address=127\.0\.0\.1/) }
     end
-    describe processes('kube-apiserver').commands.to_s do
+    describe processes(apiserver).commands.to_s do
       it { should_not match(/--insecure-bind-address/) }
     end
   end
@@ -104,7 +106,7 @@ control 'cis-kubernetes-benchmark-1.1.6' do
   tag cis: 'kubernetes:1.1.6'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--insecure-port=0/) }
   end
 end
@@ -118,10 +120,10 @@ control 'cis-kubernetes-benchmark-1.1.7' do
   tag level: 1
 
   describe.one do
-    describe processes('kube-apiserver').commands.to_s do
+    describe processes(apiserver).commands.to_s do
       it { should match(/--secure-port=([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])/) }
     end
-    describe processes('kube-apiserver').commands.to_s do
+    describe processes(apiserver).commands.to_s do
       it { should_not match(/--secure-port/) }
     end
   end
@@ -135,7 +137,7 @@ control 'cis-kubernetes-benchmark-1.1.8' do
   tag cis: 'kubernetes:1.1.8'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--profiling=false/) }
   end
 end
@@ -148,7 +150,7 @@ control 'cis-kubernetes-benchmark-1.1.9' do
   tag cis: 'kubernetes:1.1.9'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--repair-malformed-updates=false/) }
   end
 end
@@ -161,7 +163,7 @@ control 'cis-kubernetes-benchmark-1.1.10' do
   tag cis: 'kubernetes:1.1.10'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should_not match(/--admission-control=(?:.)*AlwaysAdmit,*(?:.)*/) }
     it { should match(/--admission-control=/) }
   end
@@ -175,7 +177,7 @@ control 'cis-kubernetes-benchmark-1.1.11' do
   tag cis: 'kubernetes:1.1.11'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--admission-control=(?:.)*AlwaysPullImages,*(?:.)*/) }
   end
 end
@@ -188,7 +190,7 @@ control 'cis-kubernetes-benchmark-1.1.12' do
   tag cis: 'kubernetes:1.1.12'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--admission-control=(?:.)*DenyEscalatingExec,*(?:.)*/) }
   end
 end
@@ -201,7 +203,7 @@ control 'cis-kubernetes-benchmark-1.1.13' do
   tag cis: 'kubernetes:1.1.13'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--admission-control=(?:.)*SecurityContextDeny,*(?:.)*/) }
   end
 end
@@ -214,7 +216,7 @@ control 'cis-kubernetes-benchmark-1.1.14' do
   tag cis: 'kubernetes:1.1.14'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--admission-control=(?:.)*NamespaceLifecycle,*(?:.)*/) }
   end
 end
@@ -227,7 +229,7 @@ control 'cis-kubernetes-benchmark-1.1.15' do
   tag cis: 'kubernetes:1.1.15'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--audit-log-path=/) }
   end
 end
@@ -240,11 +242,11 @@ control 'cis-kubernetes-benchmark-1.1.16' do
   tag cis: 'kubernetes:1.1.16'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--audit-log-maxage=/) }
   end
 
-  audit_log_maxage = processes('kube-apiserver').commands.to_s.scan(/--audit-log-maxage=(\d+)/)
+  audit_log_maxage = processes(apiserver).commands.to_s.scan(/--audit-log-maxage=(\d+)/)
 
   unless audit_log_maxage.empty?
     describe audit_log_maxage.last.first.to_i do
@@ -261,11 +263,11 @@ control 'cis-kubernetes-benchmark-1.1.17' do
   tag cis: 'kubernetes:1.1.17'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--audit-log-maxbackup=/) }
   end
 
-  audit_log_maxbackup = processes('kube-apiserver').commands.to_s.scan(/--audit-log-maxbackup=(\d+)/)
+  audit_log_maxbackup = processes(apiserver).commands.to_s.scan(/--audit-log-maxbackup=(\d+)/)
 
   unless audit_log_maxbackup.empty?
     describe audit_log_maxbackup.last.first.to_i do
@@ -282,11 +284,11 @@ control 'cis-kubernetes-benchmark-1.1.18' do
   tag cis: 'kubernetes:1.1.18'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--audit-log-maxsize=/) }
   end
 
-  audit_log_maxsize = processes('kube-apiserver').commands.to_s.scan(/--audit-log-maxsize=(\d+)/)
+  audit_log_maxsize = processes(apiserver).commands.to_s.scan(/--audit-log-maxsize=(\d+)/)
 
   unless audit_log_maxsize.empty?
     describe audit_log_maxsize.last.first.to_i do
@@ -303,7 +305,7 @@ control 'cis-kubernetes-benchmark-1.1.19' do
   tag cis: 'kubernetes:1.1.19'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should_not match(/--authorization-mode=(?:.)*AlwaysAllow,*(?:.)*/) }
     it { should match(/--authorization-mode=/) }
   end
@@ -317,7 +319,7 @@ control 'cis-kubernetes-benchmark-1.1.20' do
   tag cis: 'kubernetes:1.1.20'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should_not match(/--token-auth-file/) }
   end
 end
@@ -330,7 +332,7 @@ control 'cis-kubernetes-benchmark-1.1.21' do
   tag cis: 'kubernetes:1.1.21'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--kubelet-certificate-authority=/) }
   end
 end
@@ -343,7 +345,7 @@ control 'cis-kubernetes-benchmark-1.1.22' do
   tag cis: 'kubernetes:1.1.22'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--kubelet-client-certificate=/) }
     it { should match(/--kubelet-client-key=/) }
   end
@@ -357,7 +359,7 @@ control 'cis-kubernetes-benchmark-1.1.23' do
   tag cis: 'kubernetes:1.1.23'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--service-account-lookup=true/) }
   end
 end
@@ -370,7 +372,7 @@ control 'cis-kubernetes-benchmark-1.1.24' do
   tag cis: 'kubernetes:1.1.25'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--admission-control=(?:.)*PodSecurityPolicy,*(?:.)*/) }
   end
 end
@@ -383,7 +385,7 @@ control 'cis-kubernetes-benchmark-1.1.25' do
   tag cis: 'kubernetes:1.1.25'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--service-account-key-file=/) }
   end
 end
@@ -396,7 +398,7 @@ control 'cis-kubernetes-benchmark-1.1.26' do
   tag cis: 'kubernetes:1.1.26'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--etcd-certfile=/) }
     it { should match(/--etcd-keyfile=/) }
   end
@@ -410,7 +412,7 @@ control 'cis-kubernetes-benchmark-1.1.27' do
   tag cis: 'kubernetes:1.1.27'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--admission-control=(?:.)*ServiceAccount,*(?:.)*/) }
   end
 end
@@ -423,7 +425,7 @@ control 'cis-kubernetes-benchmark-1.1.28' do
   tag cis: 'kubernetes:1.1.28'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--tls-cert-file=/) }
     it { should match(/--tls-private-key-file=/) }
   end
@@ -437,7 +439,7 @@ control 'cis-kubernetes-benchmark-1.1.29' do
   tag cis: 'kubernetes:1.1.29'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--client-ca-file=/) }
   end
 end
@@ -450,7 +452,7 @@ control 'cis-kubernetes-benchmark-1.1.30' do
   tag cis: 'kubernetes:1.1.30'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--etcd-cafile/) }
   end
 end
@@ -463,7 +465,7 @@ control 'cis-kubernetes-benchmark-1.1.31' do
   tag cis: 'kubernetes:1.1.31'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--authorization-mode=(?:.)*Node,*(?:.)*/) }
   end
 end
@@ -476,7 +478,7 @@ control 'cis-kubernetes-benchmark-1.1.32' do
   tag cis: 'kubernetes:1.1.32'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--admission-control=(?:.)*NodeRestriction,*(?:.)*/) }
   end
 end
@@ -489,7 +491,7 @@ control 'cis-kubernetes-benchmark-1.1.33' do
   tag cis: 'kubernetes:1.1.33'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--experimental-encryption-provider-config=/) }
   end
 end
@@ -515,7 +517,7 @@ control 'cis-kubernetes-benchmark-1.1.35' do
   tag cis: 'kubernetes:1.1.35'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should match(/--admission-control=(?:.)*EventRateLimit,*(?:.)*/) }
   end
 end
@@ -528,7 +530,7 @@ control 'cis-kubernetes-benchmark-1.1.36' do
   tag cis: 'kubernetes:1.1.36'
   tag level: 1
 
-  describe processes('kube-apiserver').commands.to_s do
+  describe processes(apiserver).commands.to_s do
     it { should_not match(/--feature-gates=(?:.)*AdvancedAuditing=false,*(?:.)*/) }
   end
 end

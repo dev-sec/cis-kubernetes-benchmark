@@ -17,8 +17,10 @@
 
 title '3.2 Federation Controller Manager'
 
+federation_controller_manager = attribute('federation_controller_manager', default: kubernetes.processname_federation_controllermanager, description: 'The name of the federation controller manager process')
+
 only_if do
-  processes('federation-controller-manager').exists?
+  processes(federation_controller_manager).exists?
 end
 
 control 'cis-kubernetes-benchmark-3.2.1' do
@@ -29,7 +31,7 @@ control 'cis-kubernetes-benchmark-3.2.1' do
   tag cis: 'kubernetes:3.2.1'
   tag level: 1
 
-  describe processes('federation-controller-manager').commands.to_s do
+  describe processes(federation_controller_manager).commands.to_s do
     it { should match(/--profiling=false/) }
   end
 end
