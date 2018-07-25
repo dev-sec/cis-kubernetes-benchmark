@@ -20,68 +20,31 @@ class Kubernetes < Inspec.resource(1)
   desc 'Custom resource which abstracts the various kubernetes runtimes like hyperkube'
 
   def initialize
-    @file = inspec.file('/usr/bin/hyperkube')
-    @hyperkube = @file.file?
-    Log.debug("The installation is hyperkube=#{@hyperkube}")
+    @is_hyperkube = inspec.file('/usr/bin/hyperkube').file?
+    Log.debug("The kubernetes installation uses hyperkube: #{@is_hyperkube}")
   end
 
   def processname_apiserver
-    plain = 'kube-apiserver'
-    hyperkube = 'apiserver'
-    processname = plain
-
-    processname = hyperkube if @hyperkube
-
-    processname
+    return @is_hyperkube ? 'apiserver' : 'kube-apiserver'
   end
 
   def processname_federation_apiserver
-    plain = 'federation-apiserver'
-    hyperkube = 'federation-apiserver'
-    processname = plain
-
-    processname = hyperkube if @hyperkube
-
-    processname
+    return 'federation-apiserver'
   end
 
   def processname_scheduler
-    plain = 'kube-scheduler'
-    hyperkube = 'kube-scheduler'
-    processname = plain
-
-    processname = hyperkube if @hyperkube
-
-    processname
+    return 'kube-scheduler'
   end
 
   def processname_controllermanager
-    plain = 'kube-controller-manager'
-    hyperkube = 'controller-manager'
-    processname = plain
-
-    processname = hyperkube if @hyperkube
-
-    processname
+    return @is_hyperkube ? 'controller-manager' : 'kube-controller-manager'
   end
 
   def processname_federation_controllermanager
-    plain = 'federation_controller_manager'
-    hyperkube = 'federation_controller_manager'
-    processname = plain
-
-    processname = hyperkube if @hyperkube
-
-    processname
+    return 'federation_controller_manager'
   end
 
   def processname_kubelet
-    plain = 'kubelet'
-    hyperkube = 'kubelet'
-    processname = plain
-
-    processname = hyperkube if @hyperkube
-
-    processname
+    return 'kubelet'
   end
 end
