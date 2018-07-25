@@ -25,26 +25,26 @@ class Kubernetes < Inspec.resource(1)
   end
 
   def processname_apiserver
-    return @is_hyperkube ? 'apiserver' : 'kube-apiserver'
+    @is_hyperkube ? 'apiserver' : 'kube-apiserver'
   end
 
   def processname_federation_apiserver
-    return 'federation-apiserver'
+    'federation-apiserver'
   end
 
   def processname_scheduler
-    return 'kube-scheduler'
+    'kube-scheduler'
   end
 
   def processname_controllermanager
-    return @is_hyperkube ? 'controller-manager' : 'kube-controller-manager'
+    @is_hyperkube ? 'controller-manager' : 'kube-controller-manager'
   end
 
   def processname_federation_controllermanager
-    return 'federation_controller_manager'
+    'federation_controller_manager'
   end
 
   def processname_kubelet
-    return 'kubelet'
+    'kubelet'
   end
 end
