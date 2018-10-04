@@ -15,15 +15,13 @@
 #
 # author: Kristian Vlaardingerbroek
 
-cis_level = attribute('cis_level', default: '2', description: 'CIS profile level to audit', required: true)
-
 title '1.5 Master Node: etcd'
 
 etcd_regex = Regexp.new(%r{/usr/bin/etcd})
 etcd_process = processes(etcd_regex)
 etcd_env_vars = process_env_var(etcd_regex)
 
-only_if do
+only_if('etcd not found') do
   etcd_process.exists?
 end
 
@@ -203,17 +201,17 @@ control 'cis-kubernetes-benchmark-1.5.8' do
   end
 end
 
-if cis_level == '2'
-  control 'cis-kubernetes-benchmark-1.5.9' do
-    title 'Ensure that a unique Certificate Authority is used for etcd'
-    desc "Use a different certificate authority for etcd from the one used for Kubernetes.\n\nRationale: etcd is a highly available key-value store used by Kubernetes deployments for persistent storage of all of its REST API objects. Its access should be restricted to specifically designated clients and peers only. Authentication to etcd is based on whether the certificate presented was issued by a trusted certificate authority. There is no checking of certificate attributes such as common name or subject alternative name. As such, if any attackers were able to gain access to any certificate issued by the trusted certificate authority, they would be able to gain full access to the etcd database."
-    impact 0.0
+control 'cis-kubernetes-benchmark-1.5.9' do
+  title 'Ensure that a unique Certificate Authority is used for etcd'
+  desc "Use a different certificate authority for etcd from the one used for Kubernetes.\n\nRationale: etcd is a highly available key-value store used by Kubernetes deployments for persistent storage of all of its REST API objects. Its access should be restricted to specifically designated clients and peers only. Authentication to etcd is based on whether the certificate presented was issued by a trusted certificate authority. There is no checking of certificate attributes such as common name or subject alternative name. As such, if any attackers were able to gain access to any certificate issued by the trusted certificate authority, they would be able to gain full access to the etcd database."
+  impact 0.0
 
-    tag cis: 'kubernetes:1.5.9'
-    tag level: 2
+  tag cis: 'kubernetes:1.5.9'
+  tag level: 2
 
-    describe 'cis-kubernetes-benchmark-1.5.9' do
-      skip 'Review if the CA used for etcd is different from the one used for Kubernetes'
-    end
+  only_if {  cis_level == 2 }
+
+  describe 'cis-kubernetes-benchmark-1.5.9' do
+    skip 'Review if the CA used for etcd is different from the one used for Kubernetes'
   end
 end

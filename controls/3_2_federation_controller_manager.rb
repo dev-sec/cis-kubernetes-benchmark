@@ -17,9 +17,11 @@
 
 title '3.2 Federation Controller Manager'
 
-federation_controller_manager = attribute('federation_controller_manager', default: kubernetes.processname_federation_controllermanager, description: 'The name of the federation controller manager process')
+federation_controller_manager = attribute('federation_controller_manager')
+# fallback if federation_apiserver attribute is not defined
+federation_controller_manager = kubernetes.federation_controllermanager_bin if federation_controller_manager.empty?
 
-only_if do
+only_if('federation controller manager not found') do
   processes(federation_controller_manager).exists?
 end
 

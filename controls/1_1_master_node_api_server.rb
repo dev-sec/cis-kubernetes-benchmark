@@ -17,9 +17,11 @@
 
 title '1.1 Master Node: API Server'
 
-apiserver = attribute('apiserver', default: kubernetes.processname_apiserver, description: 'The name of the apiserver process')
+apiserver = attribute('apiserver')
+# fallback if apiserver attribute is not defined
+apiserver = kubernetes.apiserver_bin if apiserver.empty?
 
-only_if do
+only_if('apiserver not found') do
   processes(apiserver).exists?
 end
 
