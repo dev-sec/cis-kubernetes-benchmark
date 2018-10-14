@@ -17,9 +17,11 @@
 
 title '2.1 Worker Node: Kubelet'
 
-kubelet = attribute('kubelet', default: kubernetes.processname_kubelet, description: 'The name of the kubelet process')
+kubelet = attribute('kubelet')
+# fallback if kubelet attribute is not defined
+kubelet = kubernetes.kubelet_bin if kubelet.empty?
 
-only_if do
+only_if('kubelet not found') do
   processes(kubelet).exists?
 end
 

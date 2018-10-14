@@ -17,9 +17,11 @@
 
 title '1.3 Master Node: Controller Manager'
 
-controller_manager = attribute('controller_manager', default: kubernetes.processname_controllermanager, description: 'The name of the controller manager process')
+controller_manager = attribute('controller_manager')
+# fallback if scheduler attribute is not defined
+controller_manager = kubernetes.controllermanager_bin if controller_manager.empty?
 
-only_if do
+only_if('controller manager not found') do
   processes(controller_manager).exists?
 end
 

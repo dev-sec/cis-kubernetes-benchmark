@@ -17,9 +17,11 @@
 
 title '3.1 Federation API Server'
 
-federation_apiserver = attribute('federation_apiserver', default: kubernetes.processname_federation_apiserver, description: 'The name of the federation apiserver process')
+federation_apiserver = attribute('federation_apiserver')
+# fallback if federation_apiserver attribute is not defined
+federation_apiserver = kubernetes.federation_apiserver_bin if federation_apiserver.empty?
 
-only_if do
+only_if('federation api server not found') do
   processes(federation_apiserver).exists?
 end
 

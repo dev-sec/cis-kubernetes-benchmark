@@ -24,27 +24,27 @@ class Kubernetes < Inspec.resource(1)
     Log.debug("The kubernetes installation uses hyperkube: #{@is_hyperkube}")
   end
 
-  def processname_apiserver
+  def apiserver_bin
     @is_hyperkube ? 'apiserver' : 'kube-apiserver'
   end
 
-  def processname_federation_apiserver
+  def federation_apiserver_bin
     'federation-apiserver'
   end
 
-  def processname_scheduler
+  def scheduler_bin
     'kube-scheduler'
   end
 
-  def processname_controllermanager
+  def controllermanager_bin
     @is_hyperkube ? 'controller-manager' : 'kube-controller-manager'
   end
 
-  def processname_federation_controllermanager
+  def federation_controllermanager_bin
     'federation_controller_manager'
   end
 
-  def processname_kubelet
+  def kubelet_bin
     'kubelet'
   end
 end

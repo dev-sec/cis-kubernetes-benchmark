@@ -6,3 +6,36 @@ copyright_email: kvlaardingerbroek@schubergphilis.com
 license: Apache-2.0
 summary: An InSpec Compliance profile for the CIS Kubernetes Benchmark
 version: 0.3.0
+inspec_version: '>= 2.3.5'
+supports:
+  - platform-family: unix
+attributes:
+  - name: cis_level
+    required: false
+    description: 'CIS profile level to audit'
+    default: 2
+    type: numeric
+  - name: apiserver
+    required: false
+    description: 'The name of the apiserver process'
+    type: string
+  - name: controller_manager
+    required: false
+    description: 'The name of the controller manager process'
+    type: string
+  - name: scheduler
+    required: false
+    description: 'The name of the kube scheduler proces'
+    type: string
+  - name: kubelet
+    required: false
+    description: 'The name of the kubelet process'
+    type: string
+  - name: federation_apiserver
+    required: false
+    description: 'The name of the federation apiserver process'
+    type: string
+  - name: federation_controller_manager
+    required: false
+    description: 'The name of the federation controller manager process'
+    type: string
