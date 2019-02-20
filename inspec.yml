@@ -31,11 +31,3 @@ attributes:
     required: false
     description: 'The name of the kubelet process'
     type: string
-  - name: federation_apiserver
-    required: false
-    description: 'The name of the federation apiserver process'
-    type: string
-  - name: federation_controller_manager
-    required: false
-    description: 'The name of the federation controller manager process'
-    type: string

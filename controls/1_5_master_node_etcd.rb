@@ -147,63 +147,9 @@ control 'cis-kubernetes-benchmark-1.5.6' do
   end
 end
 
-control 'cis-kubernetes-benchmark-1.5.7' do
-  title 'Ensure that the --wal-dir argument is set as appropriate'
-  desc "Store etcd logs separately from etcd data.\n\nRationale: etcd is a highly-available key value store used by Kubernetes deployments for persistent storage of all of its REST API objects. These objects are sensitive in nature and should not be mixed with log data. Keeping the log data separate from the etcd data also ensures that those two types of data could individually be safeguarded. Also, you could use a centralized and remote log directory for persistent logging. Additionally, this separation also helps to avoid IO competition between logging and other IO operations."
-  impact 1.0
-
-  tag cis: 'kubernetes:1.5.7'
-  tag level: 1
-
-  wal_dir = ''
-
-  catch(:stop) do
-    if etcd_process.exists?
-      if (wal_dir = etcd_process.commands.first.scan(/--data-dir=(\S+)/).last)
-        wal_dir = wal_dir.first
-        throw :stop
-      end
-
-      if (wal_dir = etcd_env_vars.ETCD_WAL_DIR)
-        throw :stop
-      end
-    end
-  end
-
-  if !wal_dir.empty?
-    describe file(wal_dir).mode.to_s do
-      it { should be_owned_by 'etcd' }
-      it { should be_grouped_into 'etcd' }
-    end
-  else
-    describe 'cis-kubernetes-benchmark-1.5.7' do
-      skip 'WAL directory not found'
-    end
-  end
-end
-
-control 'cis-kubernetes-benchmark-1.5.8' do
-  title 'Ensure that the --max-wals argument is set to 0'
-  desc "Do not auto rotate logs.\n\nRationale: etcd is a highly-available key value store used by Kubernetes deployments for persistent storage of all of its REST API objects. You should avoid automatic log rotation and instead safeguard the logs in a centralized repository or through a separate log management system."
-  impact 1.0
-
-  tag cis: 'kubernetes:1.5.8'
-  tag level: 1
-
-  describe.one do
-    describe etcd_process.commands.to_s do
-      it { should match(/--max-wals=0/) }
-    end
-
-    describe etcd_env_vars do
-      its(:ETCD_MAX_WALS) { should eq '0' }
-    end
-  end
-end
-
 control 'cis-kubernetes-benchmark-1.5.9' do
   title 'Ensure that a unique Certificate Authority is used for etcd'
-  desc "Use a different certificate authority for etcd from the one used for Kubernetes.\n\nRationale: etcd is a highly available key-value store used by Kubernetes deployments for persistent storage of all of its REST API objects. Its access should be restricted to specifically designated clients and peers only. Authentication to etcd is based on whether the certificate presented was issued by a trusted certificate authority. There is no checking of certificate attributes such as common name or subject alternative name. As such, if any attackers were able to gain access to any certificate issued by the trusted certificate authority, they would be able to gain full access to the etcd database."
+  desc "Use a different certificate authority for etcd from the one used for Kubernetes.\n\nRationale: etcd is a highly available key-value store used by Kubernetes deployments for persistent storage of all of its REST API objects. Its access should be restricted to specifically designated clients and peers only.\nAuthentication to etcd is based on whether the certificate presented was issued by a trusted certificate authority. There is no checking of certificate attributes such as common name or subject alternative name. As such, if any attackers were able to gain access to any certificate issued by the trusted certificate authority, they would be able to gain full access to the etcd database."
   impact 0.0
 
   tag cis: 'kubernetes:1.5.9'

@@ -27,8 +27,8 @@ end
 
 control 'cis-kubernetes-benchmark-1.1.1' do
   title 'Ensure that the --anonymous-auth argument is set to false'
-  desc "Disable anonymous requests to the API server.\n\nRationale: When enabled, requests that are not rejected by other configured authentication methods are treated as anonymous requests. These requests are then served by the API server. You should rely on authentication to authorize access and disallow anonymous requests."
-  impact 1.0
+  desc "Disable anonymous requests to the API server.\n\nRationale: When enabled, requests that are not rejected by other configured authentication methods are treated as anonymous requests. These requests are then served by the API server. You should rely on authentication to authorize access and disallow anonymous requests.\nIf you are using RBAC authorization, it is generally considered reasonable to allow anonymous access to the API Server for health checks and discovery purposes, and hence this recommendation is not scored. However, you should consider whether anonymous discovery is an acceptable risk for your purposes."
+  impact 0.0
 
   tag cis: 'kubernetes:1.1.1'
   tag level: 1
@@ -84,25 +84,20 @@ end
 
 control 'cis-kubernetes-benchmark-1.1.5' do
   title 'Ensure that the --insecure-bind-address argument is not set'
-  desc "Do not bind to non-loopback insecure addresses.\n\nRationale: If you bind the apiserver to an insecure address, basically anyone who could connect to it over the insecure port, would have unauthenticated and unencrypted access to your master node. The apiserver doesn't do any authentication checking for insecure binds and neither the insecure traffic is encrypted. Hence, you should not bind the apiserver to an insecure address."
+  desc "Do not bind the insecure API service.\n\nRationale: If you bind the apiserver to an insecure address, basically anyone who could connect to it over the insecure port, would have unauthenticated and unencrypted access to your master node. The apiserver doesn't do any authentication checking for insecure binds and traffic to the Insecure API port is not encrpyted, allowing attackers to potentially read sensitive data in transit."
   impact 1.0
 
   tag cis: 'kubernetes:1.1.5'
   tag level: 1
 
-  describe.one do
-    describe processes(apiserver).commands.to_s do
-      it { should match(/--insecure-bind-address=127\.0\.0\.1/) }
-    end
-    describe processes(apiserver).commands.to_s do
-      it { should_not match(/--insecure-bind-address/) }
-    end
+  describe processes(apiserver).commands.to_s do
+    it { should_not match(/--insecure-bind-address/) }
   end
 end
 
 control 'cis-kubernetes-benchmark-1.1.6' do
   title 'Ensure that the --insecure-port argument is set to 0'
-  desc "Do not bind to insecure port.\n\nRationale: Setting up the apiserver to serve on an insecure port would allow unauthenticated and unencrypted access to your master node. It is assumed that firewall rules are set up such that this port is not reachable from outside of the cluster. But, as a defense in depth measure, you should not use an insecure port."
+  desc "Do not bind to insecure port.\n\nRationale: Setting up the apiserver to serve on an insecure port would allow unauthenticated and unencrypted access to your master node. This would allow attackers who could access this port, to easily take control of the cluster."
   impact 1.0
 
   tag cis: 'kubernetes:1.1.6'
@@ -146,7 +141,7 @@ end
 
 control 'cis-kubernetes-benchmark-1.1.9' do
   title 'Ensure that the --repair-malformed-updates argument is set to false'
-  desc "Disable fixing of malformed updates.\n\nRationale: The apiserver will potentially attempt to fix the update requests to pass the validation even if the requests are malformed. Malformed requests are one of the potential ways to interact with a service without legitimate information. Such requests could potentially be used to sabotage apiserver responses."
+  desc "Disable fixing of malformed updates.\n\nRationale: The apiserver will potentially attempt to fix the update requests to pass the validation even if the requests are malformed. Malformed requests are one of the potential ways to interact with a service without legitimate information. Such requests could potentially be used to sabotage API Server responses."
   impact 1.0
 
   tag cis: 'kubernetes:1.1.9'
@@ -158,21 +153,21 @@ control 'cis-kubernetes-benchmark-1.1.9' do
 end
 
 control 'cis-kubernetes-benchmark-1.1.10' do
-  title 'Ensure that the admission control policy is not set to AlwaysAdmit'
-  desc "Do not allow all requests.\n\nRationale: Setting admission control policy to `AlwaysAdmit` allows all requests and do not filter any requests."
+  title 'Ensure that the admission control plugin AlwaysAdmit is not set'
+  desc "Do not allow all requests.\n\nRationale: Setting admission control plugin `AlwaysAdmit` allows all requests and do not filter any requests."
   impact 1.0
 
   tag cis: 'kubernetes:1.1.10'
   tag level: 1
 
   describe processes(apiserver).commands.to_s do
-    it { should_not match(/--admission-control=(?:.)*AlwaysAdmit,*(?:.)*/) }
-    it { should match(/--admission-control=/) }
+    it { should_not match(/--enable-admission-plugins=(?:.)*AlwaysAdmit,*(?:.)*/) }
+    it { should match(/--enable-admission-plugins=/) }
   end
 end
 
 control 'cis-kubernetes-benchmark-1.1.11' do
-  title 'Ensure that the admission control policy is set to AlwaysPullImages'
+  title 'Ensure that the admission control plugin AlwaysPullImages is set'
   desc "Always pull images.\n\nRationale: Setting admission control policy to `AlwaysPullImages` forces every new pod to pull the required images every time. In a multitenant cluster users can be assured that their private images can only be used by those who have the credentials to pull them. Without this admisssion control policy, once an image has been pulled to a node, any pod from any user can use it simply by knowing the image's name, without any authorization check against the image ownership. When this plug-in is enabled, images are always pulled prior to starting containers, which means valid credentials are required."
   impact 1.0
 
@@ -180,12 +175,12 @@ control 'cis-kubernetes-benchmark-1.1.11' do
   tag level: 1
 
   describe processes(apiserver).commands.to_s do
-    it { should match(/--admission-control=(?:.)*AlwaysPullImages,*(?:.)*/) }
+    it { should match(/--enable-admission-plugins=(?:.)*AlwaysPullImages,*(?:.)*/) }
   end
 end
 
 control 'cis-kubernetes-benchmark-1.1.12' do
-  title 'Ensure that the admission control policy is set to DenyEscalatingExec'
+  title 'Ensure that the admission control plugin DenyEscalatingExec is set'
   desc "Deny execution of `exec` and `attach` commands in privileged pods.\n\nRationale: Setting admission control policy to `DenyEscalatingExec` denies `exec` and `attach` commands to pods that run with escalated privileges that allow host access. This includes pods that run as privileged, have access to the host IPC namespace, and have access to the host PID namespace."
   impact 1.0
 
@@ -193,12 +188,12 @@ control 'cis-kubernetes-benchmark-1.1.12' do
   tag level: 1
 
   describe processes(apiserver).commands.to_s do
-    it { should match(/--admission-control=(?:.)*DenyEscalatingExec,*(?:.)*/) }
+    it { should match(/--enable-admission-plugins=(?:.)*DenyEscalatingExec,*(?:.)*/) }
   end
 end
 
 control 'cis-kubernetes-benchmark-1.1.13' do
-  title 'Ensure that the admission control policy is set to SecurityContextDeny'
+  title 'Ensure that the admission control plugin SecurityContextDeny is set'
   desc "Restrict pod level SecurityContext customization. Instead of using a customized SecurityContext for your pods, use a Pod Security Policy (PSP), which is a cluster-level resource that controls the actions that a pod can perform and what it has the ability to access.\n\nRationale: Setting admission control policy to `SecurityContextDeny` denies the pod level SecurityContext customization. Any attempts to customize the SecurityContexts that are not explicitly defined in the Pod Security Policy (PSP) are blocked. This ensures that all the pods adhere to the PSP defined by your organization and you have a uniform pod level security posture."
   impact 1.0
 
@@ -206,12 +201,12 @@ control 'cis-kubernetes-benchmark-1.1.13' do
   tag level: 1
 
   describe processes(apiserver).commands.to_s do
-    it { should match(/--admission-control=(?:.)*SecurityContextDeny,*(?:.)*/) }
+    it { should match(/--enable-admission-plugins=(?:.)*SecurityContextDeny,*(?:.)*/) }
   end
 end
 
 control 'cis-kubernetes-benchmark-1.1.14' do
-  title 'Ensure that the admission control policy is set to NamespaceLifecycle'
+  title 'Ensure that the admission control plugin NamespaceLifecycle is set'
   desc "Reject creating objects in a namespace that is undergoing termination.\n\nRationale: Setting admission control policy to `NamespaceLifecycle` ensures that objects cannot be created in non-existent namespaces, and that namespaces undergoing termination are not used for creating the new objects. This is recommended to enforce the integrity of the namespace termination process and also for the availability of the newer objects."
   impact 1.0
 
@@ -219,13 +214,13 @@ control 'cis-kubernetes-benchmark-1.1.14' do
   tag level: 1
 
   describe processes(apiserver).commands.to_s do
-    it { should match(/--admission-control=(?:.)*NamespaceLifecycle,*(?:.)*/) }
+    it { should_not match(/--disable-admission-plugins=(?:.)*NamespaceLifecycle,*(?:.)*/) }
   end
 end
 
 control 'cis-kubernetes-benchmark-1.1.15' do
   title 'Ensure that the --audit-log-path argument is set as appropriate'
-  desc "Enable auditing on kubernetes apiserver and set the desired audit log path as appropriate.\n\nRationale: Auditing Kubernetes apiserver provides a security-relevant chronological set of records documenting the sequence of activities that have affected system by individual users, administrators or other components of the system. Even though currently, Kubernetes provides only basic audit capabilities, it should be enabled. You can enable it by setting an appropriate audit log path."
+  desc "Enable auditing on the Kubernetes API Server and set the desired audit log path as appropriate.\n\nRationale: Auditing the Kubernetes API Server provides a security-relevant chronological set of records documenting the sequence of activities that have affected system by individual users, administrators or other components of the system. Even though currently, Kubernetes provides only basic audit capabilities, it should be enabled. You can enable it by setting an appropriate audit log path."
   impact 1.0
 
   tag cis: 'kubernetes:1.1.15'
@@ -301,7 +296,7 @@ end
 
 control 'cis-kubernetes-benchmark-1.1.19' do
   title 'Ensure that the --authorization-mode argument is not set to AlwaysAllow'
-  desc "Do not always authorize all requests.\n\nRationale: The apiserver, by default, allows all requests. You should restrict this behavior to only allow the authorization modes that you explicitly use in your environment. For example, if you don't use REST APIs in your environment, it is a good security best practice to switch off that capability."
+  desc "Do not always authorize all requests.\n\nRationale: The API Server, can be configured to allow all requests. This mode should not be used on any production cluster."
   impact 1.0
 
   tag cis: 'kubernetes:1.1.19'
@@ -355,7 +350,7 @@ end
 
 control 'cis-kubernetes-benchmark-1.1.23' do
   title 'Ensure that the --service-account-lookup argument is set to true'
-  desc "Validate service account before validating token.\n\nRationale: By default, the apiserver only verifies that the authentication token is valid. However, it does not validate that the service account token mentioned in the request is actually present in etcd. This allows using a service account token even after the corresponding service account is deleted. This is an example of time of check to time of use security issue."
+  desc "Validate service account before validating token.\n\nRationale: If `--service-account-lookup` is not enabled, the apiserver only verifies that the authentication token is valid, and does not validate that the service account token mentioned in the request is actually present in etcd. This allows using a service account token even after the corresponding service account is deleted. This is an example of time of check to time of use security issue."
   impact 1.0
 
   tag cis: 'kubernetes:1.1.23'
@@ -367,7 +362,7 @@ control 'cis-kubernetes-benchmark-1.1.23' do
 end
 
 control 'cis-kubernetes-benchmark-1.1.24' do
-  title 'Ensure that the admission control policy is set to PodSecurityPolicy'
+  title 'Ensure that the admission control plugin PodSecurityPolicy is set'
   desc "Reject creating pods that do not match Pod Security Policies.\n\nRationale: A Pod Security Policy is a cluster-level resource that controls the actions that a pod can perform and what it has the ability to access. The `PodSecurityPolicy` objects define a set of conditions that a pod must run with in order to be accepted into the system. Pod Security Policies are comprised of settings and strategies that control the security features a pod has access to and hence this must be used to control pod access permissions."
   impact 1.0
 
@@ -375,7 +370,7 @@ control 'cis-kubernetes-benchmark-1.1.24' do
   tag level: 1
 
   describe processes(apiserver).commands.to_s do
-    it { should match(/--admission-control=(?:.)*PodSecurityPolicy,*(?:.)*/) }
+    it { should match(/--enable-admission-plugins=(?:.)*PodSecurityPolicy,*(?:.)*/) }
   end
 end
 
@@ -407,7 +402,7 @@ control 'cis-kubernetes-benchmark-1.1.26' do
 end
 
 control 'cis-kubernetes-benchmark-1.1.27' do
-  title 'Ensure that the admission control policy is set to ServiceAccount'
+  title 'Ensure that the admission control plugin ServiceAccount is set'
   desc "Automate service accounts management.\n\nRationale: When you create a pod, if you do not specify a service account, it is automatically assigned the `default` service account in the same namespace. You should create your own service account and let the API server manage its security tokens."
   impact 1.0
 
@@ -415,7 +410,7 @@ control 'cis-kubernetes-benchmark-1.1.27' do
   tag level: 1
 
   describe processes(apiserver).commands.to_s do
-    it { should match(/--admission-control=(?:.)*ServiceAccount,*(?:.)*/) }
+    it { should_not match(/--disable-admission-plugins=(?:.)*ServiceAccount,*(?:.)*/) }
   end
 end
 
@@ -447,11 +442,24 @@ control 'cis-kubernetes-benchmark-1.1.29' do
 end
 
 control 'cis-kubernetes-benchmark-1.1.30' do
+  title 'Ensure that the API Server only makes use of Strong Cryptographic Ciphers'
+  desc "Ensure that the API server is configured to only use strong cryptographic ciphers.\n\nRationale: TLS ciphers have had a number of known vulnerabilities and weaknesses, which can reduce the protection provided by them. By default Kubernetes supports a number of TLS ciphersuites including some that have security concerns, weakening the protection provided."
+  impact 0.0
+
+  tag cis: 'kubernetes:1.1.30'
+  tag level: 1
+
+  describe processes(apiserver).commands.to_s do
+    it { should match(/--tls-cipher-suites=TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_128_GCM_SHA256/) }
+  end
+end
+
+control 'cis-kubernetes-benchmark-1.1.31' do
   title 'Ensure that the --etcd-cafile argument is set as appropriate'
   desc "etcd should be configured to make use of TLS encryption for client connections.\n\nRationale: etcd is a highly-available key value store used by Kubernetes deployments for persistent storage of all of its REST API objects. These objects are sensitive in nature and should be protected by client authentication. This requires the API server to identify itself to the etcd server using a SSL Certificate Authority file."
   impact 1.0
 
-  tag cis: 'kubernetes:1.1.30'
+  tag cis: 'kubernetes:1.1.31'
   tag level: 1
 
   describe processes(apiserver).commands.to_s do
@@ -459,12 +467,12 @@ control 'cis-kubernetes-benchmark-1.1.30' do
   end
 end
 
-control 'cis-kubernetes-benchmark-1.1.31' do
-  title 'Ensure that the --authorization-mode argument is set to Node'
-  desc "Restrict kubelet nodes to reading only objects associated with them.\n\nRationale: The Node authorization mode only allows kubelets to read Secret, ConfigMap, PersistentVolume, and PersistentVolumeClaim objects associated with their nodes."
+control 'cis-kubernetes-benchmark-1.1.32' do
+  title 'Ensure that the --authorization-mode argument includes Node'
+  desc "Restrict kubelet nodes to reading only objects associated with them.\n\nRationale: The Node authorization mode only allows kubelets to read `Secret`, `ConfigMap`, `PersistentVolume`, and `PersistentVolumeClaim` objects associated with their nodes."
   impact 1.0
 
-  tag cis: 'kubernetes:1.1.31'
+  tag cis: 'kubernetes:1.1.32'
   tag level: 1
 
   describe processes(apiserver).commands.to_s do
@@ -472,25 +480,25 @@ control 'cis-kubernetes-benchmark-1.1.31' do
   end
 end
 
-control 'cis-kubernetes-benchmark-1.1.32' do
-  title 'Ensure that the admission control policy is set to NodeRestriction'
-  desc "Limit the Node and Pod objects that a kubelet could modify.\n\nRationale: Using the NodeRestriction plug-in ensures that the kubelet is restricted to the Node and Pod objects that it could modify as defined. Such kubelets will only be allowed to modify their own Node API object, and only modify Pod API objects that are bound to their node."
+control 'cis-kubernetes-benchmark-1.1.33' do
+  title 'Ensure that the admission control plugin NodeRestriction is set'
+  desc "Limit the `Node` and `Pod` objects that a kubelet could modify.\n\nRationale: Using the `NodeRestriction` plug-in ensures that the kubelet is restricted to the `Node` and `Pod` objects that it could modify as defined. Such kubelets will only be allowed to modify their own `Node` API object, and only modify `Pod` API objects that are bound to their node."
   impact 1.0
 
-  tag cis: 'kubernetes:1.1.32'
+  tag cis: 'kubernetes:1.1.33'
   tag level: 1
 
   describe processes(apiserver).commands.to_s do
-    it { should match(/--admission-control=(?:.)*NodeRestriction,*(?:.)*/) }
+    it { should match(/--enable-admission-plugins=(?:.)*NodeRestriction,*(?:.)*/) }
   end
 end
 
-control 'cis-kubernetes-benchmark-1.1.33' do
+control 'cis-kubernetes-benchmark-1.1.34' do
   title 'Ensure that the --experimental-encryption-provider-config argument is set as appropriate'
   desc "Encrypt etcd key-value store.\n\nRationale: etcd is a highly available key-value store used by Kubernetes deployments for persistent storage of all of its REST API objects. These objects are sensitive in nature and should be encrypted at rest to avoid any disclosures."
   impact 1.0
 
-  tag cis: 'kubernetes:1.1.33'
+  tag cis: 'kubernetes:1.1.34'
   tag level: 1
 
   describe processes(apiserver).commands.to_s do
@@ -498,38 +506,38 @@ control 'cis-kubernetes-benchmark-1.1.33' do
   end
 end
 
-control 'cis-kubernetes-benchmark-1.1.34' do
-  title 'Ensure that the encryption provider is set to aescbc'
-  desc "Use aescbc encryption provider.\n\nRationale: aescbc is currently the strongest encryption provider, It should be preferred over other providers."
-  impact 1.0
-
-  tag cis: 'kubernetes:1.1.34'
-  tag level: 1
-
-  describe 'cis-kubernetes-benchmark-1.1.34' do
-    skip 'Review the `EncryptionConfig` file and verify that `aescbc` is used as the encryption provider.'
-  end
-end
-
 control 'cis-kubernetes-benchmark-1.1.35' do
-  title 'Ensure that the admission control policy is set to EventRateLimit'
-  desc "Limit the rate at which the API server accepts requests.\n\nRationale: Using EventRateLimit admission control enforces a limit on the number of events that the API Server will accept in a given time slice. In a large multi-tenant cluster, there might be a small percentage of misbehaving tenants which could have a significant impact on the performance of the cluster overall. Hence, it is recommended to limit the rate of events that the API server will accept.\nNote: This is an Alpha feature in the Kubernetes 1.8 release."
+  title 'Ensure that the encryption provider is set to aescbc'
+  desc "Use `aescbc` encryption provider.\n\nRationale: `aescbc` is currently the strongest encryption provider, It should be preferred over other providers."
   impact 1.0
 
   tag cis: 'kubernetes:1.1.35'
   tag level: 1
 
-  describe processes(apiserver).commands.to_s do
-    it { should match(/--admission-control=(?:.)*EventRateLimit,*(?:.)*/) }
+  describe 'cis-kubernetes-benchmark-1.1.35' do
+    skip 'Review the `EncryptionConfig` file and verify that `aescbc` is used as the encryption provider.'
   end
 end
 
 control 'cis-kubernetes-benchmark-1.1.36' do
-  title 'Ensure that the AdvancedAuditing argument is not set to false'
-  desc "Do not disable advanced auditing.\n\nRationale: AdvancedAuditing enables a much more general API auditing pipeline, which includes support for pluggable output backends and an audit policy specifying how different requests should be audited. Additionally, this enables auditing of failed authentication, authorization and login attempts which could prove crucial for protecting your production clusters. It is thus recommended not to disable advanced auditing."
+  title 'Ensure that the admission control plugin EventRateLimit is set'
+  desc "Limit the rate at which the API server accepts requests.\n\nRationale: Using `EventRateLimit` admission control enforces a limit on the number of events that the API Server will accept in a given time slice. In a large multi-tenant cluster, there might be a small percentage of misbehaving tenants which could have a significant impact on the performance of the cluster overall. Hence, it is recommended to limit the rate of events that the API server will accept.\nNote: This is an Alpha feature in the Kubernetes 1.11 release."
   impact 1.0
 
   tag cis: 'kubernetes:1.1.36'
+  tag level: 1
+
+  describe processes(apiserver).commands.to_s do
+    it { should match(/--enable-admission-plugins=(?:.)*EventRateLimit,*(?:.)*/) }
+  end
+end
+
+control 'cis-kubernetes-benchmark-1.1.37' do
+  title 'Ensure that the AdvancedAuditing argument is not set to false'
+  desc "Do not disable advanced auditing.\n\nRationale: `AdvancedAuditing` enables a much more general API auditing pipeline, which includes support for pluggable output backends and an audit policy specifying how different requests should be audited. Additionally, this enables auditing of failed authentication, authorization and login attempts which could prove crucial for protecting your production clusters. It is thus recommended not to disable advanced auditing."
+  impact 1.0
+
+  tag cis: 'kubernetes:1.1.37'
   tag level: 1
 
   describe processes(apiserver).commands.to_s do
@@ -537,15 +545,28 @@ control 'cis-kubernetes-benchmark-1.1.36' do
   end
 end
 
-control 'cis-kubernetes-benchmark-1.1.37' do
+control 'cis-kubernetes-benchmark-1.1.38' do
   title 'Ensure that the --request-timeout argument is set as appropriate'
   desc "Set global request timeout for API server requests as appropriate.\n\nRationale: Setting global request timeout allows extending the API server request timeout limit to a duration appropriate to the user's connection speed. By default, it is set to 60 seconds which might be problematic on slower connections making cluster resources inaccessible once the data volume for requests exceeds what can be transmitted in 60 seconds. But, setting this timeout limit to be too large can exhaust the API server resources making it prone to Denial-of-Service attack. Hence, it is recommended to set this limit as appropriate and change the default limit of 60 seconds only if needed."
   impact 1.0
 
-  tag cis: 'kubernetes:1.1.37'
+  tag cis: 'kubernetes:1.1.38'
   tag level: 1
 
-  describe 'cis-kubernetes-benchmark-1.1.37' do
+  describe 'cis-kubernetes-benchmark-1.1.38' do
     skip 'If you have a request timeout set, verify that it is set to an appropriate value'
+  end
+end
+
+control 'cis-kubernetes-benchmark-1.1.39' do
+  title 'Ensure that the --authorization-mode argument includes RBAC'
+  desc "Turn on Role Based Access Control.\n\nRationale: Role Based Access Control (RBAC) allows fine-grained control over the operations that different entities can perform on different objects in the cluster. It is recommended to use the RBAC authorisation mode."
+  impact 1.0
+
+  tag cis: 'kubernetes:1.1.39'
+  tag level: 1
+
+  describe processes(apiserver).commands.to_s do
+    it { should match(/--authorization-mode=(?:.)*RBAC,*(?:.)*/) }
   end
 end
