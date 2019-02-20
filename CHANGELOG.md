@@ -1,5 +1,23 @@
 # Change Log
 
+## [0.4.0](https://github.com/dev-sec/cis-kubernetes-benchmark/tree/0.4.0) (2019-02-20)
+[Full Changelog](https://github.com/dev-sec/cis-kubernetes-benchmark/compare/v0.3.0...0.4.0)
+
+**Closed issues:**
+
+- CIS Benchmark v1.3.0 has been released [\#18](https://github.com/dev-sec/cis-kubernetes-benchmark/issues/18)
+- More Guidance On Usage [\#14](https://github.com/dev-sec/cis-kubernetes-benchmark/issues/14)
+- Runtime exception \(encode': "\xE2" from ASCII-8BIT to UTF-8 \(Encoding::UndefinedConversionError\)\) when requesting json format output [\#7](https://github.com/dev-sec/cis-kubernetes-benchmark/issues/7)
+
+**Merged pull requests:**
+
+- Update to CIS Kubernetes Benchmark version 1.4.0 [\#20](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/20) ([rarenerd](https://github.com/rarenerd))
+- Update issue templates [\#19](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/19) ([rndmh3ro](https://github.com/rndmh3ro))
+- use unified attributes [\#17](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/17) ([chris-rock](https://github.com/chris-rock))
+- Simplification of kubernetes library [\#16](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/16) ([tstuber](https://github.com/tstuber))
+- Detect whether the k8s distribution is hypercube [\#15](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/15) ([ruettimac](https://github.com/ruettimac))
+- Update 2\_1\_worker\_node\_kubelet.rb [\#12](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/12) ([ruettimac](https://github.com/ruettimac))
+
 ## [v0.3.0](https://github.com/dev-sec/cis-kubernetes-benchmark/tree/v0.3.0) (2018-05-30)
 [Full Changelog](https://github.com/dev-sec/cis-kubernetes-benchmark/compare/v0.2.0...v0.3.0)
 
