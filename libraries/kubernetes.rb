@@ -28,20 +28,12 @@ class Kubernetes < Inspec.resource(1)
     @is_hyperkube ? 'apiserver' : 'kube-apiserver'
   end
 
-  def federation_apiserver_bin
-    'federation-apiserver'
-  end
-
   def scheduler_bin
     'kube-scheduler'
   end
 
   def controllermanager_bin
     @is_hyperkube ? 'controller-manager' : 'kube-controller-manager'
-  end
-
-  def federation_controllermanager_bin
-    'federation_controller_manager'
   end
 
   def kubelet_bin

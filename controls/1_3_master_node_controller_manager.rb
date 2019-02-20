@@ -1,5 +1,5 @@
 #
-# Copyright 2017, Schuberg Philis B.V.
+# Copyright 2019, Schuberg Philis B.V.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -91,27 +91,32 @@ control 'cis-kubernetes-benchmark-1.3.5' do
 end
 
 control 'cis-kubernetes-benchmark-1.3.6' do
-  title 'Apply Security Context to Your Pods and Containers'
-  desc "Apply Security Context to Your Pods and Containers.\n\nRationale: A security context defines the operating system security settings (uid, gid, capabilities, SELinux role, etc..) applied to a container. When designing your containers and pods, make sure that you configure the security context for your pods, containers, and volumes. A security context is a property defined in the deployment yaml. It controls the security parameters that will be assigned to the pod/container/volume. There are two levels of security context: pod level security context, and container level security context."
-  impact 0.0
+  title 'Ensure that the RotateKubeletServerCertificate argument is set to true'
+  desc "Enable kubelet server certificate rotation on controller-manager.\n\nRationale: `RotateKubeletServerCertificate` causes the kubelet to both request a serving certificate after bootstrapping its client credentials and rotate the certificate as its existing credentials expire. This automated periodic rotation ensures that the there are no downtimes due to expired certificates and thus addressing availability in the CIA security triad.\nNote: This recommendation only applies if you let kubelets get their certificates from the API server. In case your kubelet certificates come from an outside authority/tool (e.g. Vault) then you need to take care of rotation yourself."
+  impact 1.0
 
   tag cis: 'kubernetes:1.3.6'
   tag level: 1
 
-  describe 'cis-kubernetes-benchmark-1.3.6' do
-    skip 'Review the pod definitions in your cluster and verify that you have security contexts defined as appropriate.'
+  describe processes(controller_manager).commands.to_s do
+    it { should match(/--feature-gates=(?:.)*RotateKubeletServerCertificate=true,*(?:.)*/) }
   end
 end
 
 control 'cis-kubernetes-benchmark-1.3.7' do
-  title 'Ensure that the RotateKubeletServerCertificate argument is set to true'
-  desc "Enable kubelet server certificate rotation on controller-manager.\n\nRationale: RotateKubeletServerCertificate causes the kubelet to both request a serving certificate after bootstrapping its client credentials and rotate the certificate as its existing credentials expire. This automated periodic rotation ensures that the there are no downtimes due to expired certificates and thus addressing availability in the CIA security triad. Note: This recommendation only applies if you let kubelets get their certificates from the API server. In case your kubelet certificates come from an outside authority/tool (e.g. Vault) then you need to take care of rotation yourself."
+  title 'Ensure that the --address argument is set to 127.0.0.1'
+  desc "Do not bind the Controller Manager service to non-loopback insecure addresses.\n\nRationale: The Controller Manager API service which runs on port 10252/TCP by default is used for health and metrics information and is available without authentication or encryption. As such it should only be bound to a localhost interface, to minimize the cluster's attack surface."
   impact 1.0
 
   tag cis: 'kubernetes:1.3.7'
   tag level: 1
 
-  describe processes(controller_manager).commands.to_s do
-    it { should match(/--feature-gates=(?:.)*RotateKubeletServerCertificate=true,*(?:.)*/) }
+  describe.one do
+    describe processes(controller_manager).commands.to_s do
+      it { should match(/--address=127\.0\.0\.1/) }
+    end
+    describe processes(controller_manager).commands.to_s do
+      it { should match(/--bind-address=127\.0\.0\.1/) }
+    end
   end
 end
