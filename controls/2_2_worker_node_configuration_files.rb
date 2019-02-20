@@ -1,5 +1,5 @@
 #
-# Copyright 2017, Schuberg Philis B.V.
+# Copyright 2019, Schuberg Philis B.V.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
