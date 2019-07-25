@@ -19,7 +19,7 @@ title '1.2 Master Node: Scheduler'
 
 scheduler = attribute('scheduler')
 # fallback if scheduler attribute is not defined
-kubernetes.scheduler_bin if scheduler.empty?
+scheduler = kubernetes.scheduler_bin if scheduler.empty?
 
 only_if('scheduler not found') do
   processes(scheduler).exists?
