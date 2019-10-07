@@ -180,9 +180,9 @@ control 'cis-kubernetes-benchmark-1.1.11' do
 end
 
 control 'cis-kubernetes-benchmark-1.1.12' do
-  title 'Ensure that the admission control plugin DenyEscalatingExec is set'
-  desc "Deny execution of `exec` and `attach` commands in privileged pods.\n\nRationale: Setting admission control policy to `DenyEscalatingExec` denies `exec` and `attach` commands to pods that run with escalated privileges that allow host access. This includes pods that run as privileged, have access to the host IPC namespace, and have access to the host PID namespace."
-  impact 1.0
+  title '[Deprecated] Ensure that the admission control plugin DenyEscalatingExec is set'
+  desc "[Deprecated] Deny execution of `exec` and `attach` commands in privileged pods.\n\nRationale: Setting admission control policy to `DenyEscalatingExec` denies `exec` and `attach` commands to pods that run with escalated privileges that allow host access. This includes pods that run as privileged, have access to the host IPC namespace, and have access to the host PID namespace."
+  impact 0.0
 
   tag cis: 'kubernetes:1.1.12'
   tag level: 1

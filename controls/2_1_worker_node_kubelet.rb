@@ -158,9 +158,9 @@ control 'cis-kubernetes-benchmark-2.1.10' do
 end
 
 control 'cis-kubernetes-benchmark-2.1.11' do
-  title 'Ensure that the --cadvisor-port argument is set to 0'
-  desc "Disable cAdvisor.\n\nRationale: cAdvisor provides potentially sensitive data and there's currently no way to block access to it using anything other than iptables. It does not require authentication/authorization to connect to the cAdvisor port. Hence, you should disable the port.\n**Note** The cAdvisor port setting was deprecated in Kubernetes v1.10 and will be removed in v1.12."
-  impact 1.0
+  title '[Deprecated] Ensure that the --cadvisor-port argument is set to 0'
+  desc "[Deprecated] Disable cAdvisor.\n\nRationale: cAdvisor provides potentially sensitive data and there's currently no way to block access to it using anything other than iptables. It does not require authentication/authorization to connect to the cAdvisor port. Hence, you should disable the port.\n**Note** The cAdvisor port setting was deprecated in Kubernetes v1.10 and will be removed in v1.12."
+  impact 0.0
 
   tag cis: 'kubernetes:2.1.11'
   tag level: 1
