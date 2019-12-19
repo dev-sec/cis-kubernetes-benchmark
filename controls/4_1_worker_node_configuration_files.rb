@@ -17,6 +17,14 @@
 
 title '4.1.1 Worker Node: Configuration Files'
 
+kubelet = attribute('kubelet')
+# fallback if kubelet attribute is not defined
+kubelet = kubernetes.kubelet_bin if kubelet.empty?
+
+only_if('kubelet not found') do
+  processes(kubelet).exists?
+end
+
 control 'cis-kubernetes-benchmark-4.1.1' do
   title 'Ensure that the kubelet service file permissions are set to 644 or more restrictive'
   desc "Ensure that the `kubelet` service file has permissions of `644` or more restrictive.\n\nRationale: The `kubelet` service file controls various parameters that set the behavior of the `kubelet` service in the worker node. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system."

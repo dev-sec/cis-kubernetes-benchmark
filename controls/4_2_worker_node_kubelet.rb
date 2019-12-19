@@ -52,14 +52,9 @@ control 'cis-kubernetes-benchmark-4.2.2' do
       it { should match(/--authorization-mode=/) }
     end
 
-    describe processes(kubelet).commands.to_s do
-      it { should_not match(/--config=(\S+)/) }
-
-      config = processes(kubelet).commands.to_s.scan(/--config=(\S+)/)
-      describe file(config) do
-        it { should exist }
-        its('content') { should_not match '/AlwaysAllow/'}
-      end
+    describe file(processes(kubelet).commands.to_s.scan(/--config=(\S+)/)) do
+      it { should exist }
+      its('content') { should_not match '/AlwaysAllow/i'}
     end
   end
 end
@@ -90,14 +85,9 @@ control 'cis-kubernetes-benchmark-4.2.4' do
       it { should match(/--read-only-port=0/) }
     end
 
-    describe processes(kubelet).commands.to_s do
-      it { should_not match(/--config=(\S+)/) }
-
-      config = processes(kubelet).commands.to_s.scan(/--config=(\S+)/)
-      describe file(config) do
-        it { should exist }
-        its('content') { should match '/readOnlyPort: 0/i'}
-      end
+    describe file(processes(kubelet).commands.to_s.scan(/--config=(\S+)/)) do
+      it { should exist }
+      its('content') { should match '/readOnlyPort: 0/i'}
     end
   end
 end
@@ -115,14 +105,9 @@ control 'cis-kubernetes-benchmark-4.2.5' do
       it { should_not match(/--streaming-connection-idle-timeout=0/) }
     end
 
-    describe processes(kubelet).commands.to_s do
-      it { should_not match(/--config=(\S+)/) }
-
-      config = processes(kubelet).commands.to_s.scan(/--config=(\S+)/)
-      describe file(config) do
-        it { should exist }
-        its('content') { should_not match '/streamingConnectionIdleTimeout: 0/i'}
-      end
+    describe file(processes(kubelet).commands.to_s.scan(/--config=(\S+)/)) do
+      it { should exist }
+      its('content') { should_not match '/streamingConnectionIdleTimeout: 0/i'}
     end
   end
 end
@@ -140,14 +125,9 @@ control 'cis-kubernetes-benchmark-4.2.6' do
       it { should match(/--protect-kernel-defaults=true/) }
     end
 
-    describe processes(kubelet).commands.to_s do
-      it { should_not match(/--config=(\S+)/) }
-
-      config = processes(kubelet).commands.to_s.scan(/--config=(\S+)/)
-      describe file(config) do
-        it { should exist }
-        its('content') { should match '/protectKernelDefaults: true/i'}
-      end
+    describe file(processes(kubelet).commands.to_s.scan(/--config=(\S+)/)) do
+      it { should exist }
+      its('content') { should match '/protectKernelDefaults: true/i'}
     end
   end
 end
@@ -165,14 +145,9 @@ control 'cis-kubernetes-benchmark-4.2.7' do
       it { should match(/--make-iptables-util-chains=true/) }
     end
 
-    describe processes(kubelet).commands.to_s do
-      it { should_not match(/--config=(\S+)/) }
-
-      config = processes(kubelet).commands.to_s.scan(/--config=(\S+)/)
-      describe file(config) do
-        it { should exist }
-        its('content') { should_not match '/makeIPTablesUtilChains: false/i'}
-      end
+    describe file(processes(kubelet).commands.to_s.scan(/--config=(\S+)/)) do
+      it { should exist }
+      its('content') { should_not match '/makeIPTablesUtilChains: false/i'}
     end
   end
 end
@@ -205,14 +180,9 @@ control 'cis-kubernetes-benchmark-4.2.9' do
       it { should match(/--event-qps=0/) }
     end
 
-    describe processes(kubelet).commands.to_s do
-      it { should_not match(/--config=(\S+)/) }
-
-      config = processes(kubelet).commands.to_s.scan(/--config=(\S+)/)
-      describe file(config) do
-        it { should exist }
-        its('content') { should match '/eventRecordQPS: 0/i'}
-      end
+    describe file(processes(kubelet).commands.to_s.scan(/--config=(\S+)/)) do
+      it { should exist }
+      its('content') { should match '/eventRecordQPS: 0/i'}
     end
   end
 end
@@ -231,15 +201,10 @@ control 'cis-kubernetes-benchmark-4.2.10' do
       it { should match(/--tls-private-key-file=/) }
     end
 
-    describe processes(kubelet).commands.to_s do
-      it { should_not match(/--config=(\S+)/) }
-
-      config = processes(kubelet).commands.to_s.scan(/--config=(\S+)/)
-      describe file(config) do
-        it { should exist }
-        its('content') { should match '/tlsCertFile:/i'}
-        its('content') { should match '/tlsPrivateKeyFile:/i'}
-      end
+    describe file(processes(kubelet).commands.to_s.scan(/--config=(\S+)/)) do
+      it { should exist }
+      its('content') { should match '/tlsCertFile:/i'}
+      its('content') { should match '/tlsPrivateKeyFile:/i'}
     end
   end
 end
@@ -258,14 +223,9 @@ control 'cis-kubernetes-benchmark-4.2.11' do
       it { should match(/--rotate-certificates=true/) }
     end
 
-    describe processes(kubelet).commands.to_s do
-      it { should_not match(/--config=(\S+)/) }
-
-      config = processes(kubelet).commands.to_s.scan(/--config=(\S+)/)
-      describe file(config) do
-        it { should exist }
-        its('content') { should_not match '/rotateCertificates: false/i'}
-      end
+    describe file(processes(kubelet).commands.to_s.scan(/--config=(\S+)/)) do
+      it { should exist }
+      its('content') { should_not match '/rotateCertificates: false/i'}
     end
   end
 end
@@ -296,14 +256,9 @@ control 'cis-kubernetes-benchmark-4.2.13' do
       it { should match(/--tls-cipher-suites=TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_128_GCM_SHA256/) }
     end
 
-    describe processes(kubelet).commands.to_s do
-      it { should_not match(/--config=(\S+)/) }
-
-      config = processes(kubelet).commands.to_s.scan(/--config=(\S+)/)
-      describe file(config) do
-        it { should exist }
-        its('content') { should match '/TLSCipherSuites: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_128_GCM_SHA256/i'}
-      end
+    describe file(processes(kubelet).commands.to_s.scan(/--config=(\S+)/)) do
+      it { should exist }
+      its('content') { should match '/TLSCipherSuites: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_128_GCM_SHA256/i'}
     end
   end
 end

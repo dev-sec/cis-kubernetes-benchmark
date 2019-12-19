@@ -205,8 +205,9 @@ control 'cis-kubernetes-benchmark-1.2.13' do
       it { should_not match(/--enable-admission-plugins=(?:.)*PodSecurityPolicy,*(?:.)*/) }
     end
 
-  describe processes(apiserver).commands.to_s do
-    it { should match(/--enable-admission-plugins=(?:.)*PodSecurityPolicy,*(?:.)*/) }
+    describe processes(apiserver).commands.to_s do
+      it { should match(/--enable-admission-plugins=(?:.)*PodSecurityPolicy,*(?:.)*/) }
+    end
   end
 end
 
@@ -300,6 +301,7 @@ control 'cis-kubernetes-benchmark-1.2.20' do
     describe processes(apiserver).commands.to_s do
       it { should match(/--secure-port=([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])/) }
     end
+
     describe processes(apiserver).commands.to_s do
       it { should_not match(/--secure-port/) }
     end
@@ -352,10 +354,9 @@ control 'cis-kubernetes-benchmark-1.2.23' do
 
   audit_log_maxage = processes(apiserver).commands.to_s.scan(/--audit-log-maxage=(\d+)/)
 
-  unless audit_log_maxage.empty?
-    describe audit_log_maxage.last.first.to_i do
-      it { should cmp >= 30 }
-    end
+  only_if { !audit_log_maxsize.empty }
+  describe audit_log_maxage.last.first.to_i do
+    it { should cmp >= 30 }
   end
 end
 
@@ -373,10 +374,9 @@ control 'cis-kubernetes-benchmark-1.2.24' do
 
   audit_log_maxbackup = processes(apiserver).commands.to_s.scan(/--audit-log-maxbackup=(\d+)/)
 
-  unless audit_log_maxbackup.empty?
-    describe audit_log_maxbackup.last.first.to_i do
-      it { should cmp >= 10 }
-    end
+  only_if { !audit_log_maxsize.empty }
+  describe audit_log_maxbackup.last.first.to_i do
+    it { should cmp >= 10 }
   end
 end
 
@@ -394,13 +394,11 @@ control 'cis-kubernetes-benchmark-1.2.25' do
 
   audit_log_maxsize = processes(apiserver).commands.to_s.scan(/--audit-log-maxsize=(\d+)/)
 
-  unless audit_log_maxsize.empty?
-    describe audit_log_maxsize.last.first.to_i do
-      it { should cmp >= 100 }
-    end
+  only_if { !audit_log_maxsize.empty }
+  describe audit_log_maxsize.last.first.to_i do
+    it { should cmp >= 100 }
   end
 end
-
 
 control 'cis-kubernetes-benchmark-1.2.26' do
   title 'Ensure that the --request-timeout argument is set as appropriate'
@@ -508,7 +506,7 @@ control 'cis-kubernetes-benchmark-1.2.33' do
     it { should match(/--encryption-provider-config=(\S+)/) }
   end
 
-  encryption_provider_config = processes(apiserver).commands.to_s.scan(/--encryption-provider-config==(\S+)/)
+  encryption_provider_config = processes(apiserver).commands.to_s.scan(/--encryption-provider-config=(\S+)/).flatten.first
   describe directory(encryption_provider_config) do
     it { should exist }
   end
@@ -530,7 +528,7 @@ control 'cis-kubernetes-benchmark-1.2.34' do
     it { should match(/--encryption-provider-config=(\S+)/) }
   end
 
-  encryption_provider_config = processes(apiserver).commands.to_s.scan(/--encryption-provider-config==(\S+)/)
+  encryption_provider_config = processes(apiserver).commands.to_s.scan(/--encryption-provider-config=(\S+)/).flatten.first
 
   describe file(encryption_provider_config) do
     it { should exist }
@@ -538,12 +536,19 @@ control 'cis-kubernetes-benchmark-1.2.34' do
 
   yaml_config = yaml(encryption_provider_config)
 
-  only_if {yaml_config.has_key?('resources')  }
-  describe yaml_config['resources'] do
-    it { yaml_config['providers'] should exist }
-    for yaml_config['providers'].each_key do |provider|
-      provider { be in ['identity', 'aescbc', 'kms', 'secretbox'] }
-    end
+  describe yaml(encryption_provider_config) do
+    its(['resources']) { should_not be nil }
+  end
+
+  only_if { yaml_config['resources'].size > 0 and yaml_config['resources'][0]['providers'].size > 0 }
+  yaml_config['resources'].each do |resource|
+      resource['providers'].each_entry do |provider|
+        provider.each_key do |provider_name|
+          describe "#{provider_name} must be in identify, aescbc, kms, secretbox" do
+            it { be_in ['identity','aescbc','kms','secretbox'] }
+          end
+        end
+      end
   end
 end
 
@@ -556,6 +561,6 @@ control 'cis-kubernetes-benchmark-1.2.35' do
   tag level: 1
 
   describe processes(apiserver).commands.to_s do
-    it { should match(/--tls-cipher-suites=suites=TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384/) }
+    it { should match(/--tls-cipher-suites=TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384/) }
   end
 end
