@@ -107,7 +107,7 @@ control 'cis-kubernetes-benchmark-4.2.5' do
 
     describe file(processes(kubelet).commands.to_s.scan(/--config=(\S+)/)) do
       it { should exist }
-      its('content') { should_not match '/streamingConnectionIdleTimeout: 0/i'}
+      its('content') { should_not match '/streamingConnectionIdleTimeout: 0/i' }
     end
   end
 end

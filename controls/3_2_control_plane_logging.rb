@@ -37,8 +37,7 @@ control 'cis-kubernetes-benchmark-3.2.1' do
     it { should match(/--audit-policy-file=(\S+)/) }
   end
 
-  audit_policy_file = processes(apiserver).commands.to_s.scan(/--audit-policy-file=(\S+)/)
-  describe directory(audit_log_path) do
+  describe directory(processes(apiserver).commands.to_s.scan(/--audit-policy-file=(\S+)/)) do
     it { should exist }
   end
 end
