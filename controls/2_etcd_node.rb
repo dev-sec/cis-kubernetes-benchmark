@@ -147,17 +147,17 @@ control 'cis-kubernetes-benchmark:2.6' do
   end
 end
 
-control 'cis-kubernetes-benchmark:2.9' do
+control 'cis-kubernetes-benchmark:2.7' do
   title 'Ensure that a unique Certificate Authority is used for etcd'
   desc "Use a different certificate authority for etcd from the one used for Kubernetes.\n\nRationale: etcd is a highly available key-value store used by Kubernetes deployments for persistent storage of all of its REST API objects. Its access should be restricted to specifically designated clients and peers only.\nAuthentication to etcd is based on whether the certificate presented was issued by a trusted certificate authority. There is no checking of certificate attributes such as common name or subject alternative name. As such, if any attackers were able to gain access to any certificate issued by the trusted certificate authority, they would be able to gain full access to the etcd database."
   impact 0.0
 
-  tag cis: 'kubernetes:2.9'
+  tag cis: 'kubernetes:2.7'
   tag level: 2
 
   only_if {  cis_level == 2 }
 
-  describe 'cis-kubernetes-benchmark:2.9' do
+  describe 'cis-kubernetes-benchmark:2.7' do
     skip 'Review if the CA used for etcd is different from the one used for Kubernetes'
   end
 end
