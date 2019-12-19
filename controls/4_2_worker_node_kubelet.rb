@@ -58,7 +58,7 @@ control 'cis-kubernetes-benchmark-4.2.2' do
       config = processes(kubelet).commands.to_s.scan(/--config=(\S+)/)
       describe file(config) do
         it { should exist }
-        its('content') { should not match '/AlwaysAllow/'}
+        its('content') { should_not match '/AlwaysAllow/'}
       end
     end
   end
@@ -121,7 +121,7 @@ control 'cis-kubernetes-benchmark-4.2.5' do
       config = processes(kubelet).commands.to_s.scan(/--config=(\S+)/)
       describe file(config) do
         it { should exist }
-        its('content') { should not match '/streamingConnectionIdleTimeout: 0/i'}
+        its('content') { should_not match '/streamingConnectionIdleTimeout: 0/i'}
       end
     end
   end
@@ -171,7 +171,7 @@ control 'cis-kubernetes-benchmark-4.2.7' do
       config = processes(kubelet).commands.to_s.scan(/--config=(\S+)/)
       describe file(config) do
         it { should exist }
-        its('content') { should not match '/makeIPTablesUtilChains: false/i'}
+        its('content') { should_not match '/makeIPTablesUtilChains: false/i'}
       end
     end
   end
@@ -264,7 +264,7 @@ control 'cis-kubernetes-benchmark-4.2.11' do
       config = processes(kubelet).commands.to_s.scan(/--config=(\S+)/)
       describe file(config) do
         it { should exist }
-        its('content') { should not match '/rotateCertificates: false/i'}
+        its('content') { should_not match '/rotateCertificates: false/i'}
       end
     end
   end
