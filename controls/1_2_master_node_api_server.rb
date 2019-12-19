@@ -202,7 +202,7 @@ control 'cis-kubernetes-benchmark-1.2.13' do
   describe.one do
     describe processes(apiserver).commands.to_s do
       it { should match(/--enable-admission-plugins=(?:.)*SecurityContextDeny,*(?:.)*/) }
-      it { should not match(/--enable-admission-plugins=(?:.)*PodSecurityPolicy,*(?:.)*/) }
+      it { should_not match(/--enable-admission-plugins=(?:.)*PodSecurityPolicy,*(?:.)*/) }
     end
 
   describe processes(apiserver).commands.to_s do
@@ -559,46 +559,3 @@ control 'cis-kubernetes-benchmark-1.2.35' do
     it { should match(/--tls-cipher-suites=suites=TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384/) }
   end
 end
-
-#
-# MODIF START
-#
-
-# control 'cis-kubernetes-benchmark-1.2.3' do
-#   title 'Ensure that the --insecure-allow-any-token argument is not set'
-#   desc "Do not allow any insecure tokens\n\nRationale: Accepting insecure tokens would allow any token without actually authenticating anything. User information is parsed from the token and connections are allowed."
-#   impact 1.0
-#
-#   tag cis: 'kubernetes:1.2.3'
-#   tag level: 1
-#
-#   describe processes(apiserver).commands.to_s do
-#     it { should_not match(/--insecure-allow-any-token/) }
-#   end
-# end
-#
-# control 'cis-kubernetes-benchmark-1.1.9' do
-#   title 'Ensure that the --repair-malformed-updates argument is set to false'
-#   desc "Disable fixing of malformed updates.\n\nRationale: The apiserver will potentially attempt to fix the update requests to pass the validation even if the requests are malformed. Malformed requests are one of the potential ways to interact with a service without legitimate information. Such requests could potentially be used to sabotage API Server responses."
-#   impact 1.0
-#
-#   tag cis: 'kubernetes:1.1.9'
-#   tag level: 1
-#
-#   describe processes(apiserver).commands.to_s do
-#     it { should match(/--repair-malformed-updates=false/) }
-#   end
-# end
-#
-# control 'cis-kubernetes-benchmark-1.1.37' do
-#   title 'Ensure that the AdvancedAuditing argument is not set to false'
-#   desc "Do not disable advanced auditing.\n\nRationale: `AdvancedAuditing` enables a much more general API auditing pipeline, which includes support for pluggable output backends and an audit policy specifying how different requests should be audited. Additionally, this enables auditing of failed authentication, authorization and login attempts which could prove crucial for protecting your production clusters. It is thus recommended not to disable advanced auditing."
-#   impact 1.0
-#
-#   tag cis: 'kubernetes:1.1.37'
-#   tag level: 1
-#
-#   describe processes(apiserver).commands.to_s do
-#     it { should_not match(/--feature-gates=(?:.)*AdvancedAuditing=false,*(?:.)*/) }
-#   end
-# end
