@@ -544,7 +544,7 @@ control 'cis-kubernetes-benchmark-1.2.34' do
     resource['providers'].each_entry do |provider|
       provider.each_key do |provider_name|
         describe "#{provider_name} must be in identify, aescbc, kms, secretbox" do
-          it { be_in %w(identity aescbc kms secretbox) }
+          it { be_in %w[identity aescbc kms secretbox] }
         end
       end
     end
