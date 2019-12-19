@@ -30,7 +30,7 @@ control 'cis-kubernetes-benchmark-5.3.1' do
   only_if {  cis_level == 2 }
 
   describe 'cis-kubernetes-benchmark-5.3.1' do
-    skip "Review the documentation of CNI plugin in use by the cluster, and confirm that it supports Ingress and Egress network policies."
+    skip 'Review the documentation of CNI plugin in use by the cluster, and confirm that it supports Ingress and Egress network policies.'
   end
 end
 
@@ -45,6 +45,6 @@ control 'cis-kubernetes-benchmark-5.3.2' do
   only_if {  cis_level == 2 }
 
   describe 'cis-kubernetes-benchmark-5.3.2' do
-    skip "Run the `kubectl --all-namespaces get networkpolicy` command and review the NetworkPolicy objects created in the cluster. Ensure that each namespace defined in the cluster has at least one Network Policy."
+    skip 'Run the `kubectl --all-namespaces get networkpolicy` command and review the NetworkPolicy objects created in the cluster. Ensure that each namespace defined in the cluster has at least one Network Policy.'
   end
 end

@@ -121,7 +121,7 @@ control 'cis-kubernetes-benchmark-5.2.8' do
   tag level: 1
 
   describe 'cis-kubernetes-benchmark-5.2.8' do
-    skip "Get the set of PSPs with the `kubectl get psp` command. Verify that there are no PSPs present which have allowedCapabilities set to anything other than an empty array."
+    skip 'Get the set of PSPs with the `kubectl get psp` command. Verify that there are no PSPs present which have allowedCapabilities set to anything other than an empty array.'
   end
 end
 

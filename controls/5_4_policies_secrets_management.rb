@@ -43,6 +43,6 @@ control 'cis-kubernetes-benchmark-5.4.2' do
   only_if {  cis_level == 2 }
 
   describe 'cis-kubernetes-benchmark-5.4.2' do
-    skip "Review your secrets management implementation."
+    skip 'Review your secrets management implementation.'
   end
 end

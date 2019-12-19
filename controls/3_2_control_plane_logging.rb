@@ -37,7 +37,7 @@ control 'cis-kubernetes-benchmark-3.2.1' do
     it { should match(/--audit-policy-file=(\S+)/) }
   end
 
-  audit_policy_filea = processes(apiserver).commands.to_s.scan(/--audit-policy-file=(\S+)/)
+  audit_policy_file = processes(apiserver).commands.to_s.scan(/--audit-policy-file=(\S+)/)
   describe directory(audit_log_path) do
     it { should exist }
   end
@@ -52,6 +52,6 @@ control 'cis-kubernetes-benchmark-3.2.2' do
   tag level: 2
 
   describe 'cis-kubernetes-benchmark-3.2.2' do
-    skip "Review the audit policy provided for the cluster and ensure that it covers at least the following areas: 1) Access to Secrets managed by the cluster. Care should be taken to only log Metadata for requests to Secrets, ConfigMaps, and TokenReviews, in order to avoid the risk of logging sensitive data. 2) Modification of pod and deployment objects. 3) Use of pods/exec, pods/portforward, pods/proxy and services/proxy. For most requests, minimally logging at the Metadata level is recommended (the most basic level of logging)."
+    skip 'Review the audit policy provided for the cluster and ensure that it covers at least the following areas: 1) Access to Secrets managed by the cluster. Care should be taken to only log Metadata for requests to Secrets, ConfigMaps, and TokenReviews, in order to avoid the risk of logging sensitive data. 2) Modification of pod and deployment objects. 3) Use of pods/exec, pods/portforward, pods/proxy and services/proxy. For most requests, minimally logging at the Metadata level is recommended (the most basic level of logging).'
   end
 end

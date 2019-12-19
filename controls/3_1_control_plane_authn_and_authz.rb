@@ -26,6 +26,6 @@ control 'cis-kubernetes-benchmark-3.1.1' do
   tag level: 2
 
   describe 'cis-kubernetes-benchmark-3.1.1' do
-    skip "Review user access to the cluster and ensure that users are not making use of Kubernetes client certificate authentication."
+    skip 'Review user access to the cluster and ensure that users are not making use of Kubernetes client certificate authentication.'
   end
 end

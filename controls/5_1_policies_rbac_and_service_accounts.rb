@@ -15,8 +15,6 @@
 #
 # author: Kristian Vlaardingerbroek
 
-cis_level = attribute('cis_level')
-
 title '5.1 Policies: RBAC and Service Accounts'
 
 control 'cis-kubernetes-benchmark-5.1.1' do
