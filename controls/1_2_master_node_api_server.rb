@@ -542,7 +542,7 @@ control 'cis-kubernetes-benchmark-1.2.34' do
   describe yaml_config['resources'] do
     it { yaml_config['providers'] should exist }
     for yaml_config['providers'].each_key do |provider|
-      { provider be in ['identity', 'aescbc', 'kms', 'secretbox'] }
+      provider { be in ['identity', 'aescbc', 'kms', 'secretbox'] }
     end
   end
 end
