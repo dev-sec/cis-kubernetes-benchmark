@@ -1,7 +1,8 @@
 # CIS Kubernetes Benchmark - InSpec Profile
 
 ## Description
-This profile implements the [CIS Kubernetes 1.4.1 Benchmark](https://www.cisecurity.org/benchmark/kubernetes/).
+
+This profile implements the [CIS Kubernetes 1.5.0 Benchmark](https://www.cisecurity.org/benchmark/kubernetes/).
 
 ## Attributes
 
