@@ -1,7 +1,21 @@
 # Change Log
 
-## [0.4.0](https://github.com/dev-sec/cis-kubernetes-benchmark/tree/0.4.0) (2019-02-20)
-[Full Changelog](https://github.com/dev-sec/cis-kubernetes-benchmark/compare/v0.3.0...0.4.0)
+## [1.0.0](https://github.com/dev-sec/cis-kubernetes-benchmark/tree/1.0.0) (2020-04-01)
+[Full Changelog](https://github.com/dev-sec/cis-kubernetes-benchmark/compare/v0.4.0...1.0.0)
+
+**Closed issues:**
+
+- Update to CIS Benchmark 1.4.1 [\#23](https://github.com/dev-sec/cis-kubernetes-benchmark/issues/23)
+- Question: Azure Kubernetes Service \(AKS\) Benchmark Scan [\#21](https://github.com/dev-sec/cis-kubernetes-benchmark/issues/21)
+
+**Merged pull requests:**
+
+- Feature/cis k8s benchmark v1.5.0 [\#26](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/26) ([aromeyer](https://github.com/aromeyer))
+- Feature: Update to 1.4.1 [\#24](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/24) ([jaredledvina](https://github.com/jaredledvina))
+- fix scheduler not found [\#22](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/22) ([silenceper](https://github.com/silenceper))
+
+## [v0.4.0](https://github.com/dev-sec/cis-kubernetes-benchmark/tree/v0.4.0) (2019-02-20)
+[Full Changelog](https://github.com/dev-sec/cis-kubernetes-benchmark/compare/v0.3.0...v0.4.0)
 
 **Closed issues:**
 
