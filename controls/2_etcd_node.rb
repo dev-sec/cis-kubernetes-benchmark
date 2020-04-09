@@ -1,6 +1,6 @@
 title '2 Etcd Node'
 
-etcd_regex = Regexp.new(%r{/usr/bin/etcd})
+etcd_regex = Regexp.new(attribute('etcd'))
 etcd_process = processes(etcd_regex)
 etcd_env_vars = process_env_var(etcd_regex)
 

@@ -1,5 +1,15 @@
 title '1.1 Master Node: Configuration Files'
 
+apiserver_manifest = attribute('apiserver-manifest')
+controller_manager_manifest = attribute('controller_manager-manifest')
+scheduler_manifest = attribute('scheduler-manifest')
+etcd_manifest = attribute('etcd-manifest')
+etcd_regex = Regexp.new(attribute('etcd'))
+admin_conf = attribute('admin-conf')
+scheduler_conf = attribute('scheduler-conf')
+controller_manager_conf = attribute('controller_manager-conf')
+kubernetes_pki = attribute('kubernetes-pki')
+
 control 'cis-kubernetes-benchmark-1.1.1' do
   title 'Ensure that the API server pod specification file permissions are set to 644 or more restrictive'
   desc "Ensure that the API server pod specification file has permissions of `644` or more restrictive.\n\nRationale: The API server pod specification file controls various parameters that set the behavior of the API server. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system."
@@ -9,10 +19,10 @@ control 'cis-kubernetes-benchmark-1.1.1' do
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/manifests/kube-apiserver.yaml').exist?
+    file(apiserver_manifest).exist?
   end
 
-  describe file('/etc/kubernetes/manifests/kube-apiserver.yaml').mode.to_s(8) do
+  describe file(apiserver_manifest).mode.to_s(8) do
     it { should match(/[0246][024][024]/) }
   end
 end
@@ -26,10 +36,10 @@ control 'cis-kubernetes-benchmark-1.1.2' do
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/manifests/kube-apiserver.yaml').exist?
+    file(apiserver_manifest).exist?
   end
 
-  describe file('/etc/kubernetes/manifests/kube-apiserver.yaml') do
+  describe file(apiserver_manifest) do
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
   end
@@ -44,10 +54,10 @@ control 'cis-kubernetes-benchmark-1.1.3' do
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/manifests/kube-controller-manager.yaml').exist?
+    file(controller_manager_manifest).exist?
   end
 
-  describe file('/etc/kubernetes/manifests/kube-controller-manager.yaml').mode.to_s(8) do
+  describe file(controller_manager_manifest).mode.to_s(8) do
     it { should match(/[0246][024][024]/) }
   end
 end
@@ -61,10 +71,10 @@ control 'cis-kubernetes-benchmark-1.1.4' do
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/manifests/kube-controller-manager.yaml').exist?
+    file(controller_manager_manifest).exist?
   end
 
-  describe file('/etc/kubernetes/manifests/kube-controller-manager.yaml') do
+  describe file(controller_manager_manifest) do
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
   end
@@ -79,10 +89,10 @@ control 'cis-kubernetes-benchmark-1.1.5' do
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/manifests/kube-scheduler.yaml').exist?
+    file(scheduler_manifest).exist?
   end
 
-  describe file('/etc/kubernetes/manifests/kube-scheduler.yaml').mode.to_s(8) do
+  describe file(scheduler_manifest).mode.to_s(8) do
     it { should match(/[0246][024][024]/) }
   end
 end
@@ -96,10 +106,10 @@ control 'cis-kubernetes-benchmark-1.1.6' do
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/manifests/kube-scheduler.yaml').exist?
+    file(scheduler_manifest).exist?
   end
 
-  describe file('/etc/kubernetes/manifests/kube-scheduler.yaml') do
+  describe file(scheduler_manifest) do
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
   end
@@ -114,10 +124,10 @@ control 'cis-kubernetes-benchmark-1.1.7' do
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/manifests/etcd.yaml').exist?
+    file(etcd_manifest).exist?
   end
 
-  describe file('/etc/kubernetes/manifests/etcd.yaml').mode.to_s(8) do
+  describe file(etcd_manifest).mode.to_s(8) do
     it { should match(/[0246][024][024]/) }
   end
 end
@@ -131,10 +141,10 @@ control 'cis-kubernetes-benchmark-1.1.8' do
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/manifests/etcd.yaml').exist?
+    file(etcd_manifest).exist?
   end
 
-  describe file('/etc/kubernetes/manifests/etcd.yaml') do
+  describe file(etcd_manifest) do
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
   end
@@ -223,7 +233,7 @@ control 'cis-kubernetes-benchmark-1.1.12' do
   tag cis: 'kubernetes:1.1.12'
   tag level: 1
 
-  etcd_process = processes(Regexp.new(%r{/usr/bin/etcd}))
+  etcd_process = processes(etcd_regex)
   data_dir = ''
 
   catch(:stop) do
@@ -260,10 +270,10 @@ control 'cis-kubernetes-benchmark-1.1.13' do
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/admin.conf').exist?
+    file(admin_conf).exist?
   end
 
-  describe file('/etc/kubernetes/admin.conf').mode.to_s(8) do
+  describe file(admin_conf).mode.to_s(8) do
     it { should match(/[0246][024][024]/) }
   end
 end
@@ -277,10 +287,10 @@ control 'cis-kubernetes-benchmark-1.1.14' do
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/admin.conf').exist?
+    file(admin_conf).exist?
   end
 
-  describe file('/etc/kubernetes/admin.conf') do
+  describe file(admin_conf) do
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
   end
@@ -295,10 +305,10 @@ control 'cis-kubernetes-benchmark-1.1.15' do
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/scheduler.conf').exist?
+    file(scheduler_conf).exist?
   end
 
-  describe file('/etc/kubernetes/scheduler.conf').mode.to_s(8) do
+  describe file(scheduler_conf).mode.to_s(8) do
     it { should match(/[0246][024][024]/) }
   end
 end
@@ -312,10 +322,10 @@ control 'cis-kubernetes-benchmark-1.1.16' do
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/scheduler.conf').exist?
+    file(scheduler_conf).exist?
   end
 
-  describe file('/etc/kubernetes/scheduler.conf') do
+  describe file(scheduler_conf) do
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
   end
@@ -330,10 +340,10 @@ control 'cis-kubernetes-benchmark-1.1.17' do
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/controller-manager.conf').exist?
+    file(controller_manager_conf).exist?
   end
 
-  describe file('/etc/kubernetes/controller-manager.conf').mode.to_s(8) do
+  describe file(controller_manager_conf).mode.to_s(8) do
     it { should match(/[0246][024][024]/) }
   end
 end
@@ -347,10 +357,10 @@ control 'cis-kubernetes-benchmark-1.1.18' do
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/controller-manager.conf').exist?
+    file(controller_manager_conf).exist?
   end
 
-  describe file('/etc/kubernetes/controller-manager.conf') do
+  describe file(controller_manager_conf) do
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
   end
@@ -365,10 +375,10 @@ control 'cis-kubernetes-benchmark-1.1.19' do
   tag level: 1
 
   only_if do
-    directory('/etc/kubernetes/pki').exist?
+    directory(kubernetes_pki).exist?
   end
 
-  describe directory('/etc/kubernetes/pki') do
+  describe directory(kubernetes_pki) do
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
   end
@@ -383,7 +393,7 @@ control 'cis-kubernetes-benchmark-1.1.20' do
   tag level: 1
 
   only_if do
-    directory('/etc/kubernetes/pki').exist?
+    directory(kubernetes_pki).exist?
   end
 
   cert_files = command('find /etc/kubernetes/pki -type f -name *.crt').stdout.split
@@ -409,7 +419,7 @@ control 'cis-kubernetes-benchmark-1.1.21' do
   tag level: 1
 
   only_if do
-    directory('/etc/kubernetes/pki').exist?
+    directory(kubernetes_pki).exist?
   end
 
   key_files = command('find /etc/kubernetes/pki -type f -name *.key').stdout.split

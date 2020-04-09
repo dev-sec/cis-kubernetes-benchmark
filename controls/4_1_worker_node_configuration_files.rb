@@ -3,6 +3,7 @@ title '4.1.1 Worker Node: Configuration Files'
 kubelet = attribute('kubelet')
 # fallback if kubelet attribute is not defined
 kubelet = kubernetes.kubelet_bin if kubelet.empty?
+kubelet_conf = attribute('kubelet-conf')
 
 only_if('kubelet not found') do
   processes(kubelet).exists?
@@ -36,10 +37,10 @@ control 'cis-kubernetes-benchmark-4.1.2' do
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/kubelet.conf').exist?
+    file(kubelet_conf).exist?
   end
 
-  describe file('/etc/kubernetes/kubelet.conf') do
+  describe file(kubelet_conf) do
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
   end
@@ -109,10 +110,10 @@ control 'cis-kubernetes-benchmark-4.1.5' do
   tag level: 1
 
   only_if do
-    file('/etc/kubernetes/kubelet.conf').exist?
+    file(kubelet_conf).exist?
   end
 
-  describe file('/etc/kubernetes/kubelet.conf').mode.to_s(8) do
+  describe file(kubelet_conf).mode.to_s(8) do
     it { should match(/[0246][024][024]/) }
   end
 end
