@@ -1,3 +1,4 @@
+---
 name: cis-kubernetes-benchmark
 title: CIS Kubernetes Benchmark Profile
 maintainer: Kristian Vlaardingerbroek
@@ -5,83 +6,83 @@ copyright: Schuberg Philis B.V.
 copyright_email: kvlaardingerbroek@schubergphilis.com
 license: Apache-2.0
 summary: An InSpec Compliance profile for the CIS Kubernetes Benchmark
-version: 1.0.0
+version: 0.3.1
 inspec_version: '>= 2.3.5'
 supports:
-  - platform-family: unix
+    - platform-family: unix
 attributes:
-  - name: cis_level
-    required: false
-    description: 'CIS profile level to audit'
-    value: 2
-    type: numeric
-  - name: apiserver
-    required: false
-    description: 'The name of the apiserver process'
-    type: string
-    value: kube-apiserver
-  - name: apiserver-manifest
-    require: false
-    description: 'The path of the apiserver manifest'
-    type: string
-    value: '/etc/kubernetes/manifests/kube-apiserver.yaml'
-  - name: controller_manager
-    required: false
-    description: 'The name of the controller manager process'
-    type: string
-    value: kube-controller-manager
-  - name: controller_manager-conf
-    require: false
-    description: 'The path of the controller-manager.conf file'
-    type: string
-    value: '/etc/kubernetes/controller-manager.conf'
-  - name: controller_manager-manifest
-    require: false
-    description: 'The path of the controller manager manifest'
-    type: string
-    value: '/etc/kubernetes/manifests/kube-controller-manager.yaml'
-  - name: scheduler
-    required: false
-    description: 'The name of the kube scheduler proces'
-    type: string
-    value: kube-scheduler
-  - name: scheduler-conf
-    require: false
-    description: 'The path of the scheduler.conf file'
-    type: string
-    value: '/etc/kubernetes/scheduler.conf'
-  - name: scheduler-manifest
-    require: false
-    description: 'The path of the kube scheduler manifest'
-    type: string
-    value: '/etc/kubernetes/manifests/kube-scheduler.yaml'
-  - name: kubelet
-    required: false
-    description: 'The name of the kubelet process'
-    type: string
-    value: kubelet
-  - name: kubelet-conf
-    require: false
-    description: 'The path of the kubelet.conf file'
-    type: string
-    value: '/etc/kubernetes/kubelet.conf'
-  - name: etcd
-    required: false
-    description: 'The name of the etcd process'
-    type: string
-    value: /usr/bin/etcd
-  - name: etcd-manifest
-    require: false
-    description: 'The path of the etcd manifest'
-    type: string
-    value: '/etc/kubernetes/manifests/etcd.yaml'
-  - name: admin-conf
-    require: false
-    description: 'The path of the admin.conf file'
-    type: string
-    value: '/etc/kubernetes/admin.conf'
-  - name: kubernetes-pki
-    require: false
-    description: 'The path of the Kubernetes PKI directory'
-    type: string
-    value: '/etc/kubernetes/pki'
+    - name: cis_level
+      required: false
+      description: 'CIS profile level to audit'
+      value: 2
+      type: numeric
+    - name: apiserver
+      required: false
+      description: 'The name of the apiserver process'
+      type: string
+      value: kube-apiserver
+    - name: apiserver-manifest
+      require: false
+      description: 'The path of the apiserver manifest'
+      type: string
+      value: '/etc/kubernetes/manifests/kube-apiserver.yaml'
+    - name: controller_manager
+      required: false
+      description: 'The name of the controller manager process'
+      type: string
+      value: kube-controller-manager
+    - name: controller_manager-conf
+      require: false
+      description: 'The path of the controller-manager.conf file'
+      type: string
+      value: '/etc/kubernetes/controller-manager.conf'
+    - name: controller_manager-manifest
+      require: false
+      description: 'The path of the controller manager manifest'
+      type: string
+      value: '/etc/kubernetes/manifests/kube-controller-manager.yaml'
+    - name: scheduler
+      required: false
+      description: 'The name of the kube scheduler proces'
+      type: string
+      value: kube-scheduler
+    - name: scheduler-conf
+      require: false
+      description: 'The path of the scheduler.conf file'
+      type: string
+      value: '/etc/kubernetes/scheduler.conf'
+    - name: scheduler-manifest
+      require: false
+      description: 'The path of the kube scheduler manifest'
+      type: string
+      value: '/etc/kubernetes/manifests/kube-scheduler.yaml'
+    - name: kubelet
+      required: false
+      description: 'The name of the kubelet process'
+      type: string
+      value: kubelet
+    - name: kubelet-conf
+      require: false
+      description: 'The path of the kubelet.conf file'
+      type: string
+      value: '/etc/kubernetes/kubelet.conf'
+    - name: etcd
+      required: false
+      description: 'The name of the etcd process'
+      type: string
+      value: /usr/bin/etcd
+    - name: etcd-manifest
+      require: false
+      description: 'The path of the etcd manifest'
+      type: string
+      value: '/etc/kubernetes/manifests/etcd.yaml'
+    - name: admin-conf
+      require: false
+      description: 'The path of the admin.conf file'
+      type: string
+      value: '/etc/kubernetes/admin.conf'
+    - name: kubernetes-pki
+      require: false
+      description: 'The path of the Kubernetes PKI directory'
+      type: string
+      value: '/etc/kubernetes/pki'
