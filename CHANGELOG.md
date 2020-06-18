@@ -1,8 +1,16 @@
 # Changelog
 
-## [0.3.1](https://github.com/dev-sec/cis-kubernetes-benchmark/tree/0.3.1) (2020-06-18)
+## [1.0.2](https://github.com/dev-sec/cis-kubernetes-benchmark/tree/1.0.2) (2020-06-18)
 
-[Full Changelog](https://github.com/dev-sec/cis-kubernetes-benchmark/compare/1.0.0...0.3.1)
+[Full Changelog](https://github.com/dev-sec/cis-kubernetes-benchmark/compare/1.0.1...1.0.2)
+
+**Merged pull requests:**
+
+- version alignment [\#29](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/29) ([micheelengronne](https://github.com/micheelengronne))
+
+## [1.0.1](https://github.com/dev-sec/cis-kubernetes-benchmark/tree/1.0.1) (2020-06-18)
+
+[Full Changelog](https://github.com/dev-sec/cis-kubernetes-benchmark/compare/1.0.0...1.0.1)
 
 **Merged pull requests:**
 
