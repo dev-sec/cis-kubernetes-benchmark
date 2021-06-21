@@ -1,9 +1,9 @@
 title '4.1.1 Worker Node: Configuration Files'
 
-kubelet = attribute('kubelet')
+kubelet = input('kubelet')
 # fallback if kubelet attribute is not defined
 kubelet = kubernetes.kubelet_bin if kubelet.empty?
-kubelet_conf = attribute('kubelet-conf')
+kubelet_conf = input('kubelet-conf')
 
 only_if('kubelet not found') do
   processes(kubelet).exists?

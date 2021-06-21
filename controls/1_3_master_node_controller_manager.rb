@@ -1,6 +1,6 @@
 title '1.3 Master Node: Controller Manager'
 
-controller_manager = attribute('controller_manager')
+controller_manager = input('controller_manager')
 # fallback if scheduler attribute is not defined
 controller_manager = kubernetes.controllermanager_bin if controller_manager.empty?
 

@@ -1,6 +1,6 @@
 title '1.4 Master Node: Scheduler'
 
-scheduler = attribute('scheduler')
+scheduler = input('scheduler')
 # fallback if scheduler attribute is not defined
 scheduler = kubernetes.scheduler_bin if scheduler.empty?
 
