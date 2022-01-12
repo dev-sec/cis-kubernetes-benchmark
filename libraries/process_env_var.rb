@@ -14,10 +14,10 @@ class ProcessEnvVar < Inspec.resource(1)
     @process = inspec.processes(process)
   end
 
-  def respond_to_missing?(name, include_private)
-    Log.debug("Missing #{name.to_s}")
+  def respond_to_missing?(name)
+    Log.debug("Missing #{name}")
   end
-  
+
   def method_missing(name)
     read_params[name.to_s] || ''
   end
