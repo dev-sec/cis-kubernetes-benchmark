@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProcessEnvVar < Inspec.resource(1)
   name 'process_env_var'
   desc 'Custom resource to lookup environment variables for a process'
@@ -8,14 +10,19 @@ class ProcessEnvVar < Inspec.resource(1)
   "
 
   def initialize(process)
+    super
     @process = inspec.processes(process)
   end
 
+  def respond_to_missing?(name, include_private)
+    Log.debug("Missing #{name.to_s}")
+  end
+  
   def method_missing(name)
     read_params[name.to_s] || ''
   end
 
-  def read_params
+  def params
     return @params if defined?(@params)
 
     @file = inspec.file("/proc/#{@process.pids.first}/environ")
