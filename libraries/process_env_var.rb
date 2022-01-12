@@ -15,6 +15,7 @@ class ProcessEnvVar < Inspec.resource(1)
   def initialize(process)
     @process = inspec.processes(process)
   end
+  # rubocop:enable Lint/MissingSuper
 
   def respond_to_missing?(name)
     Log.debug("Missing #{name}")
