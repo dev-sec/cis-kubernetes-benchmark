@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Kubernetes < Inspec.resource(1)
   name 'kubernetes'
   desc 'Custom resource which abstracts the various kubernetes runtimes like hyperkube'
