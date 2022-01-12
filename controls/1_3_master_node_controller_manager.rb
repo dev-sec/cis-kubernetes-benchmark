@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 title '1.3 Master Node: Controller Manager'
 
 controller_manager = input('controller_manager')
