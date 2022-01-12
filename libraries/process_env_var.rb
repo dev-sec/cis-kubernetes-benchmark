@@ -10,7 +10,6 @@ class ProcessEnvVar < Inspec.resource(1)
   "
 
   def initialize(process)
-    super(process)
     @process = inspec.processes(process)
   end
 
