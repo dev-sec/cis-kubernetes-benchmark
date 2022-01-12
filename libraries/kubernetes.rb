@@ -3,6 +3,7 @@ class Kubernetes < Inspec.resource(1)
   desc 'Custom resource which abstracts the various kubernetes runtimes like hyperkube'
 
   def initialize
+    super
     @is_hyperkube = inspec.file('/usr/bin/hyperkube').file?
     Log.debug("The kubernetes installation uses hyperkube: #{@is_hyperkube}")
   end
