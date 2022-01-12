@@ -1,14 +1,14 @@
 title '1.1 Master Node: Configuration Files'
 
-apiserver_manifest = attribute('apiserver-manifest')
-controller_manager_manifest = attribute('controller_manager-manifest')
-scheduler_manifest = attribute('scheduler-manifest')
-etcd_manifest = attribute('etcd-manifest')
-etcd_regex = Regexp.new(attribute('etcd'))
-admin_conf = attribute('admin-conf')
-scheduler_conf = attribute('scheduler-conf')
-controller_manager_conf = attribute('controller_manager-conf')
-kubernetes_pki = attribute('kubernetes-pki')
+apiserver_manifest = input('apiserver-manifest')
+controller_manager_manifest = input('controller_manager-manifest')
+scheduler_manifest = input('scheduler-manifest')
+etcd_manifest = input('etcd-manifest')
+etcd_regex = Regexp.new(input('etcd'))
+admin_conf = input('admin-conf')
+scheduler_conf = input('scheduler-conf')
+controller_manager_conf = input('controller_manager-conf')
+kubernetes_pki = input('kubernetes-pki')
 
 control 'cis-kubernetes-benchmark-1.1.1' do
   title 'Ensure that the API server pod specification file permissions are set to 644 or more restrictive'
