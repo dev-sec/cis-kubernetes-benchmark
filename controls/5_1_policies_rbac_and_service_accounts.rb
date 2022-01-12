@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 title '5.1 Policies: RBAC and Service Accounts'
 
 control 'cis-kubernetes-benchmark-5.1.1' do

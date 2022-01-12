@@ -1,4 +1,6 @@
-cis_level = attribute('cis_level')
+# frozen_string_literal: true
+
+cis_level = input('cis_level')
 
 title '5.4 Policies: Secrets Management'
 

@@ -1,11 +1,18 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-gem 'highline', '~> 1.6.0'
-gem 'inspec', '~> 3'
-gem 'rack', '>= 1.6.11'
+gem 'highline'
+gem 'rack'
 gem 'rake'
-gem 'rubocop', '~> 0.49.0'
+gem 'rubocop'
 
 group :tools do
-  gem 'github_changelog_generator', '~> 1.12.0'
+  gem 'github_changelog_generator'
+  gem 'pry-coolline'
+end
+
+source 'https://packagecloud.io/cinc-project/stable' do
+  gem 'chef-config'
+  gem 'cinc-auditor-bin'
 end

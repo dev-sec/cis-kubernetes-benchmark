@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProcessEnvVar < Inspec.resource(1)
   name 'process_env_var'
   desc 'Custom resource to lookup environment variables for a process'
@@ -7,15 +9,23 @@ class ProcessEnvVar < Inspec.resource(1)
     end
   "
 
+  # As described here https://github.com/inspec/inspec/blob/main/lib/inspec/resource.rb#L111
+  # Inspec has a weird behaviour concerning super
+  # rubocop:disable Lint/MissingSuper
   def initialize(process)
     @process = inspec.processes(process)
+  end
+  # rubocop:enable Lint/MissingSuper
+
+  def respond_to_missing?(name)
+    Log.debug("Missing #{name}")
   end
 
   def method_missing(name)
     read_params[name.to_s] || ''
   end
 
-  def read_params
+  def params
     return @params if defined?(@params)
 
     @file = inspec.file("/proc/#{@process.pids.first}/environ")

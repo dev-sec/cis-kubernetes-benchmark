@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 title '1.2 Master Node: API Server'
 
-apiserver = attribute('apiserver')
+apiserver = input('apiserver')
 # fallback if apiserver attribute is not defined
 apiserver = kubernetes.apiserver_bin if apiserver.empty?
 

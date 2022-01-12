@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 title '3.1 Control Plane Configuration'
 
 control 'cis-kubernetes-benchmark-3.1.1' do

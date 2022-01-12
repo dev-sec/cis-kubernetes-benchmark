@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 title '3.2 Logging'
 
-apiserver = attribute('apiserver')
+apiserver = input('apiserver')
 # fallback if apiserver attribute is not defined
 apiserver = kubernetes.apiserver_bin if apiserver.empty?
 

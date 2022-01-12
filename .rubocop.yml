@@ -1,9 +1,10 @@
 ---
+AllCops:
+  Exclude:
+  - vendor/**/*
 Documentation:
   Enabled: false
-AlignParameters:
-  Enabled: true
-Encoding:
+Layout/ParameterAlignment:
   Enabled: true
 HashSyntax:
   Enabled: true
@@ -11,16 +12,25 @@ LineLength:
   Enabled: false
 EmptyLinesAroundBlockBody:
   Enabled: false
+Style/Encoding:
+  Enabled: false
 MethodLength:
   Max: 40
+NumericLiterals:
+  MinDigits: 10
 Metrics/BlockLength:
-  Max: 30
+  Max: 45 # needed for 6.1.1
 Metrics/CyclomaticComplexity:
   Max: 10
 Metrics/PerceivedComplexity:
   Max: 10
 Metrics/AbcSize:
-  Max: 29
-Style/MethodMissing:
-  Exclude:
-    - 'libraries/process_env_var.rb'
+  Max: 30
+# Lint/AmbiguousBlockAssociation is incompatible with RSpec
+# https://github.com/rubocop-hq/rubocop/issues/4222
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
+Lint/AmbiguousRegexpLiteral:
+  Enabled: false
+Style/NumericPredicate:
+  Enabled: false
