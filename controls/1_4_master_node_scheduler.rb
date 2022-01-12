@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 title '1.4 Master Node: Scheduler'
 
 scheduler = input('scheduler')
