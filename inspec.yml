@@ -6,7 +6,7 @@ copyright: Schuberg Philis B.V.
 copyright_email: kvlaardingerbroek@schubergphilis.com
 license: Apache-2.0
 summary: An InSpec Compliance profile for the CIS Kubernetes Benchmark
-version: 1.0.2
+version: 1.0.3
 inspec_version: '>= 4.6.3'
 supports:
     - platform-family: unix

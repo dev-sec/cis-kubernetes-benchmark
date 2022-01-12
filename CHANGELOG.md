@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.0.3](https://github.com/dev-sec/cis-kubernetes-benchmark/tree/1.0.3) (2022-01-12)
+
+[Full Changelog](https://github.com/dev-sec/cis-kubernetes-benchmark/compare/1.0.2...1.0.3)
+
+**Closed issues:**
+
+- CIS Kubernetes Benchmark Profile on EKS [\#31](https://github.com/dev-sec/cis-kubernetes-benchmark/issues/31)
+
+**Merged pull requests:**
+
+- change jobs versions of release workflows [\#37](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/37) ([micheelengronne](https://github.com/micheelengronne))
+- use input instead of attribute [\#35](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/35) ([micheelengronne](https://github.com/micheelengronne))
+
 ## [1.0.2](https://github.com/dev-sec/cis-kubernetes-benchmark/tree/1.0.2) (2020-06-18)
 
 [Full Changelog](https://github.com/dev-sec/cis-kubernetes-benchmark/compare/1.0.1...1.0.2)
