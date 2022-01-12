@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 cis_level = input('cis_level')
 
 title '5.3 Policies: Network Policies and CNI'
