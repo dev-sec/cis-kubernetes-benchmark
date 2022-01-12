@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 title '4.1.1 Worker Node: Configuration Files'
 
 kubelet = input('kubelet')
