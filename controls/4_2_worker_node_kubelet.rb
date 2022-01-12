@@ -1,6 +1,6 @@
 title '4.2 Worker Node: Kubelet'
 
-kubelet = attribute('kubelet')
+kubelet = input('kubelet')
 # fallback if kubelet attribute is not defined
 kubelet = kubernetes.kubelet_bin if kubelet.empty?
 
