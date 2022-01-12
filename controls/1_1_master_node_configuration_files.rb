@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 title '1.1 Master Node: Configuration Files'
 
 apiserver_manifest = input('apiserver-manifest')
