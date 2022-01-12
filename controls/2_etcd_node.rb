@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 title '2 Etcd Node'
 
 etcd_regex = Regexp.new(input('etcd'))
