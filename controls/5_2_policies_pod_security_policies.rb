@@ -1,4 +1,4 @@
-cis_level = attribute('cis_level')
+cis_level = input('cis_level')
 
 title '5.2 Policies: Pod Security Policies'
 
