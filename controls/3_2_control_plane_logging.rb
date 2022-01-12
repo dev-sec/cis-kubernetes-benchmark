@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 title '3.2 Logging'
 
 apiserver = input('apiserver')
