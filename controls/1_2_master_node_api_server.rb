@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 title '1.2 Master Node: API Server'
 
 apiserver = input('apiserver')
