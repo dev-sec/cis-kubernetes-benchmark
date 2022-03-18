@@ -169,7 +169,6 @@ control 'cis-kubernetes-benchmark-1.1.9' do
       skip 'Review the permissions on your CNI configuration file(s).'
     end
   end
-
 end
 
 control 'cis-kubernetes-benchmark-1.1.10' do
