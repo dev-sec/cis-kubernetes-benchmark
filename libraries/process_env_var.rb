@@ -11,11 +11,9 @@ class ProcessEnvVar < Inspec.resource(1)
 
   # As described here https://github.com/inspec/inspec/blob/main/lib/inspec/resource.rb#L111
   # Inspec has a weird behaviour concerning super
-  # rubocop:disable Lint/MissingSuper
   def initialize(process)
     @process = inspec.processes(process)
   end
-  # rubocop:enable Lint/MissingSuper
 
   def respond_to_missing?(name)
     Log.debug("Missing #{name}")
