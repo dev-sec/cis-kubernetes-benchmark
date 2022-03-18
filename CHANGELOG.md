@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.4](https://github.com/dev-sec/cis-kubernetes-benchmark/tree/1.0.4) (2022-03-18)
+
+[Full Changelog](https://github.com/dev-sec/cis-kubernetes-benchmark/compare/1.0.3...1.0.4)
+
+**Merged pull requests:**
+
+- Change linting to Cookstyle [\#38](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/38) ([schurzi](https://github.com/schurzi))
+
 ## [1.0.3](https://github.com/dev-sec/cis-kubernetes-benchmark/tree/1.0.3) (2022-01-12)
 
 [Full Changelog](https://github.com/dev-sec/cis-kubernetes-benchmark/compare/1.0.2...1.0.3)
