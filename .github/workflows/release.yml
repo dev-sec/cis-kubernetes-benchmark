@@ -6,6 +6,7 @@ on:  # yamllint disable-line rule:truthy
   push:
     branches:
       - master
+
 jobs:
   generate_changelog:
     uses: dev-sec/.github/.github/workflows/baseline-release.yml@main
