@@ -1,8 +1,12 @@
 # Changelog
 
-## [1.0.4](https://github.com/dev-sec/cis-kubernetes-benchmark/tree/1.0.4) (2022-03-18)
+## [1.0.4](https://github.com/dev-sec/cis-kubernetes-benchmark/tree/1.0.4) (2022-12-05)
 
 [Full Changelog](https://github.com/dev-sec/cis-kubernetes-benchmark/compare/1.0.3...1.0.4)
+
+**Implemented enhancements:**
+
+- use centralised issue templates and workflows [\#39](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/39) ([schurzi](https://github.com/schurzi))
 
 **Merged pull requests:**
 
