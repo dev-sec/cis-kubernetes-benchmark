@@ -42,6 +42,6 @@ class ProcessEnvVar < Inspec.resource(1)
   end
 
   def to_s
-    "Enviroment variables for #{@process}"
+    "Environment variables for #{@process}"
   end
 end
