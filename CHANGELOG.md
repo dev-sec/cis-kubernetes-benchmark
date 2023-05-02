@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.0.4](https://github.com/dev-sec/cis-kubernetes-benchmark/tree/1.0.4) (2023-03-31)
+## [1.0.4](https://github.com/dev-sec/cis-kubernetes-benchmark/tree/1.0.4) (2023-05-02)
 
 [Full Changelog](https://github.com/dev-sec/cis-kubernetes-benchmark/compare/1.0.3...1.0.4)
 
@@ -10,6 +10,7 @@
 
 **Merged pull requests:**
 
+- add spellchecking with codespell [\#41](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/41) ([schurzi](https://github.com/schurzi))
 - Configure Renovate [\#40](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/40) ([renovate[bot]](https://github.com/apps/renovate))
 - Change linting to Cookstyle [\#38](https://github.com/dev-sec/cis-kubernetes-benchmark/pull/38) ([schurzi](https://github.com/schurzi))
 
